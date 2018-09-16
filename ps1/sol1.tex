@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{bbm}
 \usepackage{graphicx}
@@ -34,6 +35,12 @@
 
 % sans serif italic
 \newcommand{\s}[1]{\textsf{\textit{#1}}}
+
+% set symbol
+\usepackage[mathscr]{euscript}
+
+% empty set
+\let\emptyset\varnothing
 
 % qed
 \newcommand{\qeds}{\hfill\qedsymbol}
@@ -131,14 +138,14 @@ Thus,
 \section*{Problem 2}
 (a)
 %
-Since $\mathcal{S}$ is a finite set, for convenience and without loss of generality,
-we can write $\mathcal{S} = \{1, 2, ..., N\}$, where $N = |\mathcal{S}|$.
+Since $\mathscr{S}$ is a finite set, for convenience and without loss of generality,
+we can write $\mathscr{S} = \{1, 2, ..., N\}$, where $N = |\mathscr{S}|$.
 
 In preparation, we compute
 $\gamma(1) = \mu(1)$, $\gamma(2) = \mu(1) + \mu(2)$, $\dots$,
 $\gamma(N) = \mu(1) + \mu(2) + \dots + \mu(N) = 1$.
 Let $\gamma(0) = 0$.
-This preparation step takes $O(|\mathcal{S}|)$.
+This preparation step takes $O(|\mathscr{S}|)$.
 
 Notice
 \begin{align*}
@@ -150,7 +157,7 @@ Notice
 \mathbb{P}\Big(\gamma(N - 1) < UN \leq 1\Big) &= \mu(N). \\
 \end{align*}
 
-Thus, we sample $U \sim \text{unif}([0, 1])$, check which interval $UN$ falls in (i.e., sandwiched by which $\gamma$ interval). The $\gamma(i)$ interval $UN$ falls in corresponds to the index $i$ of element in $\mathcal{S}$ to output. This takes $O(|\mathcal{S}|)$ to check, as there are $N$ such intervals.
+Thus, we sample $U \sim \text{unif}([0, 1])$, check which interval $UN$ falls in (i.e., sandwiched by which $\gamma$ interval). The $\gamma(i)$ interval $UN$ falls in corresponds to the index $i$ of element in $\mathscr{S}$ to output. This takes $O(|\mathscr{S}|)$ to check, as there are $N$ such intervals.
 \\
 
 %
@@ -164,23 +171,65 @@ p(x_{n-1}|x_n)\;p(x_n)\\
 \cdots\frac{p(x_{n-1})}{p(x_n)}p(x_n).
 \end{align*}
 
-Now, from the Black-box A we have access to arbitrary marginals,
+Now, from the black-box A we have access to arbitrary marginals,
 which means we can compute each of the nominators and denominators above.
 Thus, we can compute each term of the above telescoping factorization.
-This involves $2n -1 = O(n)$ calls of Black-box A.
+This involves $2n -1 = O(n)$ calls of black-box A.
 
-For each of the terms, we can then use (a) to sample and the computation
-time is now $O(n|\mathcal{X}|)$.
+Notice that we sample the term from right to left, so we can invoke (a) \emph{independently} n times. Therefore the computation
+time is now $O(n|\mathscr{X}|)$.
 \\
 
 %
 \noindent
-(c)
+(c) We consider two sets of cliques in $\mathscr{G}$
+\begin{align*}
+\mathcal{A} &= \Big\{\mathscr{C}: \mathscr{C} \in cl(\mathscr{G}), \mathscr{C}\cap\{1\} = \emptyset \Big\},\\
+\mathscr{B} &= \Big\{\mathscr{C}: \mathscr{C} \in cl(\mathscr{G}), \mathscr{C}\cap\{1\} \neq \emptyset \Big\}.
+\end{align*}
+\\
+%
+Since
+\begin{align*}
+p_{\s{x}_1, \s{x}_2, \cdots, \s{x}_n}(x_1, x_2, \cdots, x_n) = p_{\s{x}_2, \s{x}_3, \cdots, \s{x}_n | \s{x}_1}(x_2, x_3, \cdots, x_n | x_1) \,p_{\s{x}_1}(x_1),
+\end{align*}
+we know the conditional distribution is proportional to the original distribution (as $p_{\s{x}_1}(x_1)$ can be absorbed in partition function $Z$). Thus the multiplications of potentials over cliques should carry over to the new graph.
+
+Now, in the new undirected graph $\mathscr{G}'$ with all edges involving node 1 removed, the set of cliques still contain $\mathscr{A}$, since no edges are removed from $\mathscr{A}$. Thus for $\mathscr{C}\in\mathscr{A}$,
+\begin{align*}
+\psi'_{\mathscr{C}\in\mathscr{A}}(x_{\mathscr{C}}) =
+\psi_{\mathscr{C}\in\mathscr{A}}(x_{\mathscr{C}}),	
+\end{align*}
+where $\psi$ is the potential function in the original graph $\mathscr{G}$, and $\psi'$ is on the new graph $\mathscr{G}'$.
+
+For the rest of the cliques in $\mathscr{G}'$, i.e., $\mathscr{B}' = \Big\{\mathscr{C}: \mathscr{C} \in cl(\mathscr{G}'), \mathscr{C} \not\in \mathscr{A}\Big\}$, each clique maps to the clique in $\mathscr{B}$ with edges to node 1 removed. Thus, the relation of the potential functions is
+\begin{align*}
+\psi'_{\mathscr{C}\in\mathscr{B}'}(x_{\mathscr{C}}) = \psi_{\mathscr{C}\in\mathscr{B}}(x_{\mathscr{C} \backslash \{1\}}, x_1).	
+\end{align*}
+Intuitively, the new potential corresponds to the old one with $x_1$ actualized in the node.
 \\
 
 %
 \noindent
-(d)
+(d) Similar to (b) we expand
+\begin{align*}
+p(x_1, x_2, \cdots, x_n) &= p(x_1 | x_2, \cdots, x_n) \;
+p(x_2 | x_3, \cdots, x_n)\; \cdots
+p(x_{n-1}|x_n)\;p(x_n).
+\end{align*}
+Now, from right to left, we first invoke black-box B on node $n$ to get
+the marginal distribution of $p(x_n)$. Next, we use (c) to update the graph
+by removing edges connect to $n$ and update the corresponding potential ($x_n$ is fixed, as we are now sampling $x_{n-1}$).
+Then on the new graph, we invoke black-box B on node $n-1$ to get 
+marginal distribution of $p(x_{n-1}|x_n)$. This defines an iterative algorithm.
+
+More concretely, at iteration step $i$, we first remove edges connect to
+node $n - i + 1$; use (c) to update the potential; and then invoke black-box
+B on node $n-i$ to get the marginal distribution $p(x_{n-i+1}|x_{n-i},
+\cdots, x_n)$.
+
+The whole algorithm makes $n=O(n)$ calls to black-box B and takes
+$O(n|\mathscr{X}|)$ to sample ($\s{x}_1, \s{x}_2, \cdots, \s{x}_n$).
 
 \pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
