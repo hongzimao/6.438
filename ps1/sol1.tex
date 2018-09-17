@@ -77,7 +77,7 @@
 \begin{document}
  
 \section*{Problem 1}
-(a) Let $\s{x} = \s{z} + \s{w}_1$ and $\s{y} = \s{z} + \s{w}_2$.
+(a) Let $\s{x} = \s{z}\s{w}_1$ and $\s{y} = \s{z}\s{w}_2$.
 %
 From the directed graphical model in Figure~\ref{f:1a},
 we have $\s{x} \nindep \s{y}$ while $\s{x} \indep \s{y} | \s{z}$.
@@ -88,6 +88,13 @@ we have $\s{x} \nindep \s{y}$ while $\s{x} \indep \s{y} | \s{z}$.
   \caption{Directed graphical model for 1(a).}
   \label{f:1a}
 \end{figure}
+
+We can also see the conditionality with an example. Let $z\in\{-1, 1\}$ and
+$w_1, w_2 \in\{0, 1\}$. Now,  knowing the sign of $x$ immediately
+unveils the sign of $y$, which means $\s{x} \nindep \s{y}$. However,
+condition on the sign of $z$, the value of $x$ does not influence (i.e.,
+unveil information) of $y$. Thus, $\s{x} \indep \s{y} | \s{z}$.
+\\
 
 \noindent
 (b) ``$\Longrightarrow$'':
