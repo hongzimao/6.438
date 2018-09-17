@@ -286,7 +286,7 @@ This contradicts with the assumption. \qeds
 (a) The diagram of the undirected graphical model is shown in Figure~\ref{f:4a}.
 We write the potential as
 \begin{align*}
-p_{\s{x}, \s{t}}(x, t) = \phi_{\s{x}, \s{t}}(x, t) = \mathbbm{1}_{x=1}\,p_{\s{t}}(t)\,c_t + \mathbbm{1}_{x=0}\,p_{\s{t}}(t)\,(1 - c_t).
+p_{\s{x}, \s{t}}(x, t) = \psi_{\s{x}, \s{t}}(x, t) = \mathbbm{1}_{x=1}\,p_{\s{t}}(t)\,c_t + \mathbbm{1}_{x=0}\,p_{\s{t}}(t)\,(1 - c_t).
 \end{align*}
 \begin{figure}[h]
   \centering
@@ -299,11 +299,11 @@ p_{\s{x}, \s{t}}(x, t) = \phi_{\s{x}, \s{t}}(x, t) = \mathbbm{1}_{x=1}\,p_{\s{t}
 %
 \noindent
 (b) The diagram of the undirected graphical model is shown in Figure~\ref{f:4b}.
-The potential function between $\s{x}$ and $\s{t}$, $\phi_{\s{x}, \s{t}}(x, t)$,
+The potential function between $\s{x}$ and $\s{t}$, $\psi_{\s{x}, \s{t}}(x, t)$,
 is the same as (a).
 We write the potential between $\s{t}$ and each $\s{y}_i$ as
 \begin{align*}
-\phi_{\s{t}, \s{y}_i}(t, y_i) = p_{\s{t}}(t)\,\exp\left[\sum_{k=1}^K\mathbbm{1}_{t=k}\,\theta_i^k\,y_i\right].
+\psi_{\s{t}, \s{y}_i}(t, y_i) = p_{\s{t}}(t)\,\exp\left[\sum_{k=1}^K\mathbbm{1}_{t=k}\,\theta_i^k\,y_i\right].
 \end{align*}
 
 \begin{figure}[h]
