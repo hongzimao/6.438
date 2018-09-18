@@ -89,11 +89,15 @@ we have $\s{x} \nindep \s{y}$ while $\s{x} \indep \s{y} | \s{z}$.
   \label{f:1a}
 \end{figure}
 
-We can also see the conditionality with an example. Let $z\in\{-1, 1\}$ and
-$w_1, w_2 \in\{0, 1\}$. Now,  knowing the sign of $x$ immediately
-unveils the sign of $y$, which means $\s{x} \nindep \s{y}$. However,
-condition on the sign of $z$, the value of $x$ does not influence (i.e.,
-unveil information) of $y$. Thus, $\s{x} \indep \s{y} | \s{z}$.
+We can also see the conditionality with an example.
+
+Let $z\in\{-1, 1\}$ and
+$w_1, w_2 \in\{1, 2\}$, each with the same probability.
+Now,  knowing the sign of $x$ immediately unveils the sign of $y$
+(more concretely $\mathbb{P}(x=1, y=-1)=0\neq1/4 \times 1/4 = \mathbb{P}(x=1)\mathbb{P}(y=-1)$), which means $\s{x} \nindep \s{y}$.
+
+However, condition on the sign of $z$, the value of $x$ does not influence (i.e.,
+unveil information of) $y$ (as $\mathbb{P}(x=1, y=-1 | z = 1)=0=1/2\times0=\mathbb{P}(x=1|z=1)\mathbb{P}(y=-1|z=1)$; $\mathbb{P}(x=1, y=1 | z = 1)=1/4=1/2\times1/2=\mathbb{P}(x=1|z=1)\mathbb{P}(y=1|z=1)$; and similar to all other exhaustions). Thus, $\s{x} \indep \s{y} | \s{z}$.
 \\
 
 \noindent
