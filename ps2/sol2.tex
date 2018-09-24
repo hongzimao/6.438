@@ -29,6 +29,7 @@
 \chead{Problem Set 2}
 \rhead{Hongzi Mao}
 \cfoot{\thepage}
+\rfoot{\footnotesize{\emph{Collaborated with: Hongzhou Ye, Zhiwei Ding}}}
 
 % footer line
 \renewcommand{\footrulewidth}{0.4pt}
@@ -95,27 +96,45 @@ we show
 \end{figure}
 %
 
-To show (1), we note that nodes in $\mathscr{S}_i$ are fully connected (dashed line in Figure~\ref{f:2a}) at elimination step $i$ (direct consequence of elimination). Since node $i$ was connected to all nodes in $\mathscr{S}_i$ (solid line connected to $i$ in Figure~\ref{f:2a}), this nodes set forms a clique.
+To show (1), we note that nodes in $\mathscr{S}_i$ are fully connected (dashed line in Figure~\ref{f:2a}) at
+elimination step $i$ (direct consequence of elimination). Since node $i$ was connected to all nodes in
+$\mathscr{S}_i$ (solid line connected to $i$ in Figure~\ref{f:2a}), this nodes set forms a clique.
 %
-For (2), the size of such clique at each step $i$ is all the uneliminated nodes connected to $i$ and node $i$ itself, i.e., $|\mathscr{S}_i| +1$.
+For (2), the size of such clique at each step $i$ is all the uneliminated nodes connected to $i$ and node $i$
+itself, i.e., $|\mathscr{S}_i| +1$.
 
 %
-To show (3), we first notice that the largest clique formed at elimination steps is no smaller than the largest clique in the \emph{original} graph $\mathscr{G}$. This is because, at the first time we eliminate any node $j$ in the largest clique of $\mathscr{G}$, the size $|\mathscr{S}_j|$ is at least the clique size $-1$ (as $j$ can only be connected with more nodes than all the nodes in the clique).
+To show (3), we first notice that the largest clique formed at elimination steps is no smaller than the largest
+clique in the \emph{original} graph $\mathscr{G}$. This is because, at the first time we eliminate any node $j$
+in the largest clique of $\mathscr{G}$, the size $|\mathscr{S}_j|$ is at least the clique size $-1$ (as $j$ can
+only be connected with more nodes than all the nodes in the clique).
 
 %
-Second, the cliques with newly generated edges in $\mathscr{G}$ are formed in single elimination steps. This can be proved by contradiction. Suppose a clique in $\mathscr{G}$ is formed in multiple elimination steps. In such a clique, there exists a node \emph{not} connecting to all other nodes in the clique at its elimination step (otherwise a single step would have formed the clique). But after eliminating this node, other nodes have no way to form a connection with it, and thus can not form a clique with this node, which is a contradiction. Thus the largest clique in $\mathscr{H}$ is generated in a \emph{single} elimination step.
+Second, the cliques with newly generated edges in $\mathscr{G}$ are formed in single elimination steps. This
+can be proved by contradiction. Suppose a clique in $\mathscr{G}$ is formed in multiple elimination steps. In
+such a clique, there exists a node \emph{not} connecting to all other nodes in the clique at its elimination
+step (otherwise a single step would have formed the clique). But after eliminating this node, other nodes have
+no way to form a connection with it, and thus can not form a clique with this node, which is a contradiction.
+Thus the largest clique in $\mathscr{H}$ is generated in a \emph{single} elimination step.
 
-Therefore, the largest clique generated at the elimination steps, i.e., with size $\max_i |\mathscr{S}_i| +1$, is the largest clique in $\mathscr{H}$. \qeds
+Therefore, the largest clique generated at the elimination steps, i.e., with size $\max_i |\mathscr{S}_i| +1$,
+is the largest clique in $\mathscr{H}$. \qeds
 \\
 
 %
 \noindent
 (b) We show $\mathscr{H}$ is chordal by induction.
 %
-For any cycle in $\mathscr{H}$ of size $4$, when eliminating any of the node will add in an edge (if not already exist) between its adjacent nodes, which makes makes this cycle chordal in $\mathscr{H}$.
+For any cycle in $\mathscr{H}$ of size $4$, when eliminating any of the node will add in an edge (if not already
+exist) between its adjacent nodes, which makes makes this cycle chordal in $\mathscr{H}$.
 
 %
-Assume any cycle in $\mathscr{H}$ with size $N$ or less is chordal. For a cycle in $\mathscr{H}$ with size $N+1$, if there are existing edges connecting any nodes in the cycle, the cycle can be decomposed into multiple cycles with size strictly less than $N+1$. For all these cycles, they are chordal since their sizes are $N$ or less. If there is no previous edge in the cycle, eliminating any node will connect its adjacent nodes, making a triangle and a cycle with size $N$. Since the cycle with size $N$ in $\mathscr{H}$ is chordal and the triangle connects the 2 non-consecutive edges are connected in the triangle, the cycle with size $N+1$ is chordal. 
+Assume any cycle in $\mathscr{H}$ with size $N$ or less is chordal. For a cycle in $\mathscr{H}$ with size $N+1$,
+if there are existing edges connecting any nodes in the cycle, the cycle can be decomposed into multiple cycles
+with size strictly less than $N+1$. For all these cycles, they are chordal since their sizes are $N$ or less. If
+there is no previous edge in the cycle, eliminating any node will connect its adjacent nodes, making a triangle
+and a cycle with size $N$. Since the cycle with size $N$ in $\mathscr{H}$ is chordal and the triangle connects
+the 2 non-consecutive edges are connected in the triangle, the cycle with size $N+1$ is chordal. 
 
 %
 Therefore, by induction, $\mathscr{H}$ is chordal. \qeds
@@ -124,6 +143,51 @@ Therefore, by induction, $\mathscr{H}$ is chordal. \qeds
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Problem 2.3}
+(a) Figure~\ref{f:3a} shows the reconstituted graph.
+%
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\columnwidth]{3a.pdf}
+  \vspace{-0.2cm}
+  \caption{Reconstituted graph induced by elimination ordering $(\s{x}_4,\s{y}_4,\s{y}_3,\s{x}_3,\s{x}_1,\s{x}_2,\s{y}_2,\s{y}_1)$.}
+  \label{f:3a}
+\end{figure}
+%
+\\
 
+%
+\noindent
+(b) An elimination ordering that requires the least computation:
+$(\s{y}_1, \s{y}_2, \cdots, \s{y}_n, \s{x}_1, \s{x}_2, \cdots, \s{x}_n)$.
+%
+The asymptotic time complexity is $O(nk^2)$.
+%
+This is the least computation because every elimination step does not introduce new edge, every step takes
+the least $O(k^2)$ computation, and there are $2n$ nodes to eliminate at least.
 
+An elimination ordering that requires the most computation:
+$(\s{x}_1, \s{x}_2, \cdots, \s{x}_n, \s{y}_1, \s{y}_2, \cdots, \s{y}_n)$.
+%
+The asymptotic time complexity is $O(k^{n+1})$. This is the most computation because when eliminating node $\s{x}_n$,
+it has connected to all $\s{y}_1, \s{y}_2, \cdots, \s{y}_n$ nodes (i.e., $|\mathscr{S}_{\s{x}_n}| = n$). In this ordering,
+if we had eliminated any $\s{y}_i$ before eliminating all $\s{x}$'s, $|\mathscr{S}_{\s{x}_n}|$ would have been less than
+$n$; and the ordering among $\s{x}$ does not matter because eliminating some middle $\s{x}_i$ first does not increase the
+connectivity in terms of $\s{x}$'s for its adjacent $\s{x}_{i-1}$ and $\s{x}_{i+1}$ when eliminating them (i.e., $|\mathscr{S}_{\s{x}_{i-1}}| \leq n$ and $|\mathscr{S}_{\s{x}_{i+1}}| \leq n)$.
+%
+\\
+
+%
+\noindent
+(c) Figure~\ref{f:3c} shows an example.
+%
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\columnwidth]{3c.pdf}
+  \vspace{-0.1cm}
+  \caption{An example of undirected graph that the maximal clique size does not dependent on $n$ (maximal cliques
+  are edges, size $2$). The elimination complexity of any ordering is $O(k^n)$.}
+  \label{f:3c}
+\end{figure}
+%
+ 
 \end{document}
