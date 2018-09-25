@@ -6,9 +6,10 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{amsfonts}
-\usepackage{bbm}
 \usepackage{graphicx}
 \usepackage{wrapfig}
+\usepackage{bbm}
+\usepackage{dsfont}
 
 % set up margin
 \usepackage
@@ -147,7 +148,7 @@ Therefore, by induction, $\mathscr{H}$ is chordal. \qeds
 %
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.5\columnwidth]{3a.pdf}
+  \includegraphics[width=0.4\columnwidth]{3a.pdf}
   \vspace{-0.2cm}
   \caption{Reconstituted graph induced by elimination ordering $(\s{x}_4,\s{y}_4,\s{y}_3,\s{x}_3,\s{x}_1,\s{x}_2,\s{y}_2,\s{y}_1)$.}
   \label{f:3a}
@@ -185,9 +186,111 @@ connectivity in terms of $\s{x}$'s for its adjacent $\s{x}_{i-1}$ and $\s{x}_{i+
   \includegraphics[width=0.4\columnwidth]{3c.pdf}
   \vspace{-0.1cm}
   \caption{An example of undirected graph that the maximal clique size does not dependent on $n$ (maximal cliques
-  are edges, size $2$). The elimination complexity of any ordering is $O(k^n)$.}
+  are edges, size $2$). The elimination complexity of any ordering is $O(k^{n/2})$.}
   \label{f:3c}
 \end{figure}
 %
- 
+\pagebreak
+
+\section*{Problem 2.4}
+%
+(a)
+%
+We use sum-product algorithm to pass message from $\s{t}$ to $\s{x}$. Thus
+\begin{align*}
+m_{\s{t}}(\s{x}=1) &= \sum_t \phi_{\s{t}}(t)\psi_{\s{t}\s{x}}(t, \s{x}=1) \\
+&= \sum_t p_{\s{t}}(t)c_{t}.
+\end{align*}
+%
+The margin is then
+\begin{align*}
+p_{\s{x}}(1) &\propto \phi_{\s{x}}(\s{x}=1) m_{\s{t}}(\s{x}=1)\\
+&= \sum_t p_{\s{t}}(t)c_{t},\\
+\end{align*}
+%
+which is automatically normalized since $p_{\s{x}}(0) \propto \sum_t p_{\s{t}}(t)(1-c_{t})$. 
+%
+Thus,
+\begin{equation*}
+p_{\s{x}}(1) = \sum_t p_{\s{t}}(t)c_{t}.
+\end{equation*}
+\\
+
+%
+\noindent
+(b) 
+For ease of explanation, denote the observation of $\s{\textbf{y}}$ to be $\textbf{a} = (a_1, a_2, \cdots, a_N)$.
+
+%
+When observation $\s{\textbf{y}} = \textbf{a}$ is given, we can update the graph by updating the singleton
+potential on $\s{y}_i$'s to be
+\begin{equation*}
+	\phi'_{\s{y}_i}(y_i) = \mathds{1}_{y_i = a_i}.
+\end{equation*}
+
+To get $p_{\s{x}|\s{\textbf{y}}}(1|\textbf{a})$, we use sum-prodct algorithm to choose $\s{x}$ as root and pass
+messages from $\s{y}_i$'s to $\s{t}$ and to $\s{x}$. Specially,
+%
+\begin{align*}
+	m_{\s{y}_i\to\s{t}}(t) &= \sum_{y_i} \psi_{\s{t},\s{y}_i}(t, y_i) \phi'_{\s{y}_i}(y_i)\\
+	&=\sum_{y_i} \frac{\exp(\theta^t_iy_i)}{1 + \exp(\theta^t_iy_i)} \mathds{1}_{y_i = a_i}\\
+	&=\frac{\exp(\theta^t_i a_i)}{1 + \exp(\theta^t_i)}.
+\end{align*}
+
+Next, the message from $\s{t}$ to $\s{x}$ is
+
+\begin{align*}
+	m_{\s{t}\to\s{x}}(x=1) &= \sum_{t=1}^K \phi_{\s{t}}(t) \psi_{\s{t,x}}(t, x) \prod_{i=1}^{N} m_{\s{y}_i\to\s{t}}(t)\\
+	&=\sum_{t=1}^K p_{\s{t}}(t)c_t\prod_{i=1}^{N}\frac{\exp(\theta^t_i a_i)}{1 + \exp(\theta^t_i)}.
+\end{align*}
+%
+
+Hence, since $\phi_{\s{x}}(x)=1$,
+\begin{align*}
+p_{\s{x}|\s{\textbf{y}}}(1|\textbf{a}) \propto \sum_{t=1}^K p_{\s{t}}(t)c_t\prod_{i=1}^{N}\frac{\exp(\theta^t_i a_i)}{1 + \exp(\theta^t_i)}.
+\end{align*}
+
+To normalize, notice $p_{\s{x}|\s{\textbf{y}}}(1|\textbf{a}) + p_{\s{x}|\s{\textbf{y}}}(0|\textbf{a}) = 1$ and 
+\begin{align*}
+p_{\s{x}|\s{\textbf{y}}}(1|\textbf{a}) + p_{\s{x}|\s{\textbf{y}}}(0|\textbf{a}) &= 
+\sum_{t=1}^K p_{\s{t}}(t)c_t\prod_{i=1}^{N}\frac{\exp(\theta^t_i a_i)}{1 + \exp(\theta^t_i)} + 
+\sum_{t=1}^K p_{\s{t}}(t)(1 - c_t)\prod_{i=1}^{N}\frac{\exp(\theta^t_i a_i)}{1 + \exp(\theta^t_i)} \\
+&= \sum_{t=1}^K p_{\s{t}}(t)\prod_{i=1}^{N}\frac{\exp(\theta^t_i a_i)}{1 + \exp(\theta^t_i)}.
+\end{align*}
+
+Thus, 
+\begin{align*}
+p_{\s{x}|\s{\textbf{y}}}(1|\textbf{a}) = \sum_{t=1}^K p_{\s{t}}(t)c_t\prod_{i=1}^{N}\frac{\exp(\theta^t_i a_i)}{1 + \exp(\theta^t_i)} \Bigg/ \sum_{t=1}^K p_{\s{t}}(t)\prod_{i=1}^{N}\frac{\exp(\theta^t_i a_i)}{1 + \exp(\theta^t_i)}.
+\end{align*}
+\\
+
+%
+(c) To use sum-product algorithm, we choose $\s{y}_1$ as root and pass messages to it. Notice that the messages to $\s{t}$,
+\begin{align*}
+	m_{\s{x}\to\s{t}}(t) &= \sum_x \phi_{\s{x}}(x)\psi_{\s{t, x}}(t, x)\\
+	&= \sum_x p_{\s{x}|\s{t}}(x|t)\\
+	&=1,
+\end{align*}
+and
+\begin{align*}
+	m_{\s{y}_i\to\s{t}}(t) &= \sum_x \phi_{\s{y}_i}(y_i)\psi_{\s{t},\s{y}_i}(t, y_i)\\
+	&= \sum_x p_{\s{y}_i|\s{t}}(y_i|t)\\
+	&=1.
+\end{align*}
+
+Thus, 
+\begin{align*}
+	m_{\s{t}\to\s{y}_1}(y_1) &= \sum_{t=1}^{K}\phi_{\s{t}}(t)\psi_{\s{t},\s{y}_1}(t, y_1)\\
+	&= \sum_{t=1}^{K}p_{\s{t}}(t)\frac{\exp(\theta_1^ty_1)}{1 + \exp(\theta_1^t)}.
+\end{align*}
+
+Hence, since  $\phi_{\s{y}_1}(y_1)=1$,
+\begin{align*}
+	p_{\s{y}_1}(y_1) \propto \sum_{t=1}^{K}p_{\s{t}}(t)\frac{\exp(\theta_1^ty_1)}{1 + \exp(\theta_1^t)}.
+\end{align*}
+
+Notice that the probability is automatically normalized, we have
+\begin{align*}
+	p_{\s{y}_1}(1) = \sum_{t=1}^{K}p_{\s{t}}(t)\frac{\exp(\theta_1^t)}{1 + \exp(\theta_1^t)}.
+\end{align*}
 \end{document}
