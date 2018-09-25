@@ -192,6 +192,7 @@ connectivity in terms of $\s{x}$'s for its adjacent $\s{x}_{i-1}$ and $\s{x}_{i+
 %
 \pagebreak
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Problem 2.4}
 %
 (a)
@@ -293,4 +294,123 @@ Notice that the probability is automatically normalized, we have
 \begin{align*}
 	p_{\s{y}_1}(1) = \sum_{t=1}^{K}p_{\s{t}}(t)\frac{\exp(\theta_1^t)}{1 + \exp(\theta_1^t)}.
 \end{align*}
+%
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Problem 2.5}
+%
+(a) (i) After stripping off the leaf nodes, the nodes in $G$ that did not have connection to the leaf nodes have their node and edge potentials unmodified. For the nodes that had connection to one or more leaf nodes, their node potentials are updated as
+\begin{align*}
+	\phi'_\s{s}(s) &= \phi_\s{s}(s) \prod_{\s{t}\in\mathcal{L}(\s{s})}m_{\s{t}\to\s{s}}(s) \\
+	&= \phi_\s{s}(s)\prod_{\s{t}\in\mathcal{L}(\s{s})}\sum_{t}\phi_\s{t}(t)\psi_{\s{t}, \s{s}}(t, s),
+\end{align*}
+where $\mathcal{L}(\cdot)$ denotes the neighboring leaf nodes.
+\\
+
+%
+(ii) We show $G'$ has diameter strictly less than $D-1$ by showing (1) all the paths in $G$ reduce the length by $2$ and
+(2) a path in $G'$ must be fully contained by a path in $G$. 
+
+Here, (1) is because the two ends of a path in $G$ are different (otherwise a cycle in tree), and the two ends are
+leaves (otherwise not a path). These two ends are stripped off as they are separate leaves. Thus the length of any path
+in $G$ is reduced by 2. 
+
+We show (2) by contradiction. Any two nodes in $G'$ must on a path in $G$, because otherwise the graph is disjoint.
+Then we assume a path in $G'$ was not a part of any path in $G$. We can pick any two nodes in path. Now these two nodes
+has a path in $G$; we can walk along this path from a node to the other. Then since the path in $G'$ is \emph{different},
+we can walk along the path in $G'$ back to the starting node, which forms a cycle. Thus any path in $G'$ must originally
+be part of a path in $G$, which completes the second part of this proof. \qeds
+\\
+
+%
+(iii) We need to show two directions. First, the messages from the leaf nodes were fixed because the messages sent out
+from the leaves do not depend on other nodes. Second, by induction step, the messages from "inside" are all converged
+by $D-2$ time steps. Therefore, the message sent to the leaves are also fixed. Thus, after "placing back" the leaf nodes
+and conduct one more message passing, all the messages will have converged.
+\\
+
+%
+\noindent
+(b) For depth $= 1$ the equation holds, since
+\begin{align*}
+m_{\s{s}\to\s{t}}^*(x_t) &= \sum_{x_s}\psi(x_s, x_t)\phi(x_s).\\
+\end{align*}
+%
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\columnwidth]{5b.pdf}
+  \vspace{-0.1cm}
+  \caption{Induction from depth $n-1$ to $n$.}
+  \label{f:5b}
+\end{figure}
+%
+Assume the equation holds for trees with depth up to $n-1$. For a tree with depth $n$,
+suppose a node (node $\s{s}$ in Figure~\ref{f:5b}) on a path with length $n$
+were to send the message out (to a hypothetical node $\s{t}$ in Figure~\ref{f:5b}),
+the message can be written as
+\begin{align*}
+	m_{\s{s}\to\s{t}}^*(x_t) &= \sum_{x_s}\phi(x_s)\psi(x_s, x_t)\prod_{k\in \partial s \backslash\{t\}}m^*_{k\to s}(x_s)\\
+	&=\sum_{x_s}\phi(x_s)\psi(x_s, x_t)\prod_{k\in \partial s \backslash\{t\}}\sum_{\{x_v|v\in T_k\}}\psi(x_k, x_s)\prod_{v\in T_k}\phi(x_v)\prod_{(i,j)\in T_k}\psi(x_i, x_j)\\
+	&=\sum_{\{x_v|v\in T_s\}}\phi(x_s)\psi(x_s, x_t)\prod_{k\in \partial s \backslash\{t\}}\psi(x_k, x_s)\prod_{v\in T_k}\phi(x_v)\prod_{(i,j)\in T_k}\psi(x_i, x_j),
+\end{align*}
+where we can move the summation because $x_v$ are on the singleton potential. Further merging terms, we have
+\begin{align*}
+&\sum_{\{x_v|v\in T_s\}}\phi(x_s)\psi(x_s, x_t)\prod_{k\in \partial s \backslash\{t\}}\psi(x_k, x_s)\prod_{v\in T_k}\phi(x_v)\prod_{(i,j)\in T_k}\psi(x_i, x_j)\\
+= &\sum_{\{x_v|v\in T_s\}}\psi(x_s, x_t)\prod_{k\in \partial s \backslash\{t\}}\psi(x_k, x_s)\prod_{v\in T_s}\phi(x_v)\prod_{(i,j)\in T_k}\psi(x_i, x_j)\\
+= &\sum_{\{x_v|v\in T_s\}}\psi(x_s, x_t)\prod_{v\in T_s}\phi(x_v)\prod_{(i,j)\in T_v}\psi(x_i, x_j).
+\end{align*}
+Thus, by induction, the message passing fixed point $m^*$ satisfies the property. \qeds
+\\
+
+\noindent
+(c) Since the marginal $\s{x}_s$ is proportional to summing other random variables in the potentials over the cliques, we have
+\begin{align*}
+	p(x_s) &\propto \sum_{\big\{x_v|v\in\mathscr{V}\backslash\{s\}\big\}}\prod_{v\in\mathscr{V}}\phi(x_v)\prod_{i,j\in\mathscr{E}}\psi(x_i, x_j)\\
+	&=\phi(s) \sum_{\big\{x_v|v\in\mathscr{V}\backslash\{s\}\big\}}\prod_{v\in\mathscr{V}\backslash\{s\}}\phi(x_v)\prod_{i,j\in\mathscr{E}}\psi(x_i, x_j).
+\end{align*}
+%
+Now we can slide the summation term inside the products, by skipping the irrelevant terms. Specially, we break down the neighboring nodes of $\s{s}$, 
+%
+\begin{align*}
+	p(x_s) &\propto \phi(s) \prod_{t\in N(s)}\left[\sum_{\{x_v|v\in T_t\}}\psi(x_t, x_s)\prod_{v\in T_t}\phi(x_v)\prod_{i,j\in T_t}\psi(x_i, x_j)\right].
+\end{align*}
+Notice that we are able to separate the product term for edge potential to each
+sub-tree $\prod_{i,j\in T_t}\psi(x_i, x_j)$, because there is no edge across the sub-trees (otherwise forming cycles); and $\psi(x_t, x_s)$ is singled out in the front as it is excluded from the sub-tree but existed originally in $\mathscr{E}$.
+
+By part (b), we arrive that
+\begin{align*}
+	p(x_s) &\propto \phi(s) \prod_{t\in N(s)}m_{t\to s}^*(x_s).
+\end{align*}\qeds
+\\
+
+\noindent
+(d) Similar to (c), since the marginal on $\s{x}_s, \s{x}_t$ is proportional to summing other random variables in the potentials over the cliques, we have
+\begin{align*}
+	p(x_s, x_t) &\propto \sum_{\big\{s_v|v\in\mathscr{V}\backslash\{s,t\}\big\}}\prod_{v\in\mathscr{V}}\phi(x_v)\prod_{i,j\in\mathscr{E}}(x_i,x_j)\\
+	&= \phi(x_s)\phi(x_t)\psi(x_s, x_t)
+	\sum_{v\in T_s\backslash\{s\}}\left[\prod_{v\in T_s\backslash\{s\}}\phi(x_v)\prod_{i, j \in T_s}
+	\psi(x_i,x_j)\right]
+	\sum_{v\in T_t\backslash\{t\}}\left[\prod_{v\in T_t\backslash\{t\}}\phi(x_v)\prod_{i, j \in T_t}
+	\psi(x_i,x_j)\right].
+\end{align*}
+Here, we can break the edge potential into two sub-trees because there is no edges across these two groups, otherwise cycles would be formed. Now, similar to (c), we can further expand to the neighbor nodes of $\s{s}$ and $\s{t}$ for message passing. Specially
+\begin{align*}
+	&\sum_{v\in T_s\backslash\{s\}}\left[\prod_{v\in T_s\backslash\{s\}}\phi(x_v)\prod_{i, j \in T_s}
+	\psi(x_i,x_j)\right]\\
+	=& \prod_{u\in N(s)\backslash\{t\}}\left[\sum_{x_v|v\in T_u}\psi(x_u, x_s)\prod_{v\in T_u}\phi(x_v)\prod_{i,j\in T_u}(x_i, x_j)\right],
+\end{align*}
+where edge potentials are further separated into each sub-tree, and the edge potentials that connects $x_u$ and $x_s$ are singled out in the front, as they are excluded from subtree $T_u$ but existed in $\mathscr{E}$.
+
+Similarly, for the other half we have
+\begin{align*}
+	&\sum_{v\in T_t\backslash\{t\}}\left[\prod_{v\in T_t\backslash\{t\}}\phi(x_v)\prod_{i, j \in T_t}
+	\psi(x_i,x_j)\right]\\
+	=& \prod_{u\in N(t)\backslash\{s\}}\left[\sum_{x_v|v\in T_t}\psi(x_t, x_s)\prod_{v\in T_t}\phi(x_v)\prod_{i,j\in T_t}(x_i, x_j)\right].
+\end{align*}
+
+By part (b), we have
+\begin{align*}
+	p(x_s, x_t) &\propto \phi(x_s)\phi(x_t)\psi(x_s, x_t) \prod_{u\in N(s)\backslash\{t\}}m^*_{u\to s}(x_s) \prod_{v\in N(t)\backslash\{s\}}m^*_{v\to t}(x_t).
+\end{align*}\qeds
 \end{document}
