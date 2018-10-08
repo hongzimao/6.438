@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{mathtools}
 \usepackage{amsfonts}
 \usepackage{graphicx}
 \usepackage{wrapfig}
@@ -265,8 +266,7 @@ $\bm{J}_{11}$ and $\bm{J}_{22}$ being symmetric, and $\bm{J}_{12}^T =\bm{J}_{21}
 \begin{align*}
 	\bm{J}_{11}' &= \bm{J}_{11} - \bm{A}^T\bm{J}_{22}\bm{A} = \bm{J}_{11} - \bm{J}_{12}\bm{J}_{22}^{-1}\bm{J}_{21},\\
 	\bm{h}_1' &= \bm{h}_1 - \bm{J}_{12}\bm{J}_{22}^{-1}\bm{h}_2.
-\end{align*}\qeds
-\\
+\end{align*}
 
 \noindent
 (b) Let
@@ -302,9 +302,124 @@ Plugging in the first equation,
 Rearranging,
 \begin{align*}
 	\left(\bm{J}_{11} + \bm{J}_{12}\bm{J}_{22}^{-1}\bm{J}_{21}\right)\bm{m}_1 = \bm{h}_1 - \bm{J}_{12}\bm{J}_{22}^{-1}\bm{h}_2.
-\end{align*}\qeds
+\end{align*}
 \\
 
 \noindent
-(c)(i) 
+(c)(i) Notice that
+\begin{align*}
+p_{\bs{x}_1, \bs{x}_2, \bs{x}_3}(\bm{x}_1, \bm{x}_2, \bm{x}_3) &\propto	
+\exp\left\{-\frac{1}{2}\left(
+\begin{bmatrix}
+    \bm{x}_1^T & \bm{x}_2^T & \bm{x}_3^T 
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{J}_{11} & \bm{J}_{12} & \bm{J}_{13}\\
+    \bm{J}_{21} & \bm{J}_{22} & 0 \\
+    \bm{J}_{31} & 0 & \bm{J}_{33}\\
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{x}_1 \\
+    \bm{x}_2 \\
+    \bm{x}_3
+\end{bmatrix}\right) + 
+\begin{bmatrix}
+    \bm{h}_1^T & \bm{h}_2^T & \bm{h}_3^T
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{x}_1 \\
+    \bm{x}_2 \\
+    \bm{x}_3
+\end{bmatrix}
+\right\} \\
+&\propto \exp\bigg[-\frac{1}{2}\left(
+\bm{x}_1^T\bm{J}_{11}\bm{x}_1 +
+\bm{x}_1^T\bm{J}_{12}\bm{x}_2 +
+\bm{x}_1^T\bm{J}_{13}\bm{x}_3 +
+\bm{x}_2^T\bm{J}_{21}\bm{x}_1 +
+\bm{x}_2^T\bm{J}_{22}\bm{x}_2 +
+\bm{x}_3^T\bm{J}_{31}\bm{x}_3 +
+\bm{x}_3^T\bm{J}_{33}\bm{x}_3
+\right)\\
+&\;\;\;\; + \bm{h}_1^T\bm{x}_1 + \bm{h}_2^T\bm{x}_2 + \bm{h}_3^T\bm{x}_3 \bigg] \\
+&\propto \underbrace{\exp\left[-\frac{1}{2}\left(
+\bm{x}_1^T\bm{J}_{11}\bm{x}_1 +
+\bm{x}_1^T\bm{J}_{12}\bm{x}_2 +
+\bm{x}_2^T\bm{J}_{21}\bm{x}_1 +
+\bm{x}_2^T\bm{J}_{22}\bm{x}_2
+\right) + \bm{h}_1^T\bm{x}_1 + \bm{h}_2^T\bm{x}_2
+\right]}_{h(\bm{x}_1, \bm{x}_2)}\\
+&\times \underbrace{\exp\left[-\frac{1}{2}\left(
+\bm{x}_1^T\bm{J}_{13}\bm{x}_3 +
+\bm{x}_3^T\bm{J}_{31}\bm{x}_3 +
+\bm{x}_3^T\bm{J}_{33}\bm{x}_3
+\right) + \bm{h}_3^T\bm{x}_3 \right]}_{g(\bm{x}_1, \bm{x}_3)}.
+\end{align*}
+
+Hence,
+%
+$\bs{x}_2 \indep \bs{x}_3 \,|\, \bs{x}_1.$ \qeds
+\\
+
+\noindent
+(ii) Directly using equation (2), we have
+\begin{align*}
+	\bm{J}_b &= \bm{J}_{11} -
+\begin{bmatrix}
+    \bm{J}_{12} & \bm{J}_{13} 
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{J}_{22} & 0 \\
+    0 & \bm{J}_{33}
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+    \bm{J}_{21} \\
+    \bm{J}_{31}
+\end{bmatrix} \\
+&= \bm{J}_{11} -
+\begin{bmatrix}
+    \bm{J}_{12} & \bm{J}_{13} 
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{J}_{22}^{-1} & 0 \\
+    0 & \bm{J}_{33}^{-1}
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{J}_{21} \\
+    \bm{J}_{31}
+\end{bmatrix}\\
+&= \bm{J}_{11} - \bm{J}_{12}\bm{J}_{22}^{-1}\bm{J}_{21} - \bm{J}_{13}\bm{J}_{33}^{-1}\bm{J}_{31},
+\end{align*}
+and
+\begin{align*}
+	\bm{h}_b &= \bm{h}_1 - 
+\begin{bmatrix}
+    \bm{J}_{12} & \bm{J}_{13} 
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{J}_{22} & 0 \\
+    0 & \bm{J}_{33}
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+    \bm{h}_{2} \\
+    \bm{h}_{3}
+\end{bmatrix} \\
+&= \bm{h}_1 - 
+\begin{bmatrix}
+    \bm{J}_{12} & \bm{J}_{13} 
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{J}_{22}^{-1} & 0 \\
+    0 & \bm{J}_{33}^{-1}
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{h}_{2} \\
+    \bm{h}_{3}
+\end{bmatrix} \\
+&=\bm{J}_{11} - \bm{J}_{12}\bm{J}_{22}^{-1}\bm{h}_{2} - \bm{J}_{13}\bm{J}_{33}^{-1}\bm{h}_{3}.
+\end{align*}\qeds
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Problem 3.3}
 \end{document}
