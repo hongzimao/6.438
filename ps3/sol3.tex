@@ -54,6 +54,9 @@
 % math bold face
 \newcommand{\bm}{\mathbf}
 
+% argmax
+\DeclareMathOperator*{\argmax}{argmax}
+
 % independence symbol
 \makeatletter
 \newcommand*{\indep}{%
@@ -629,4 +632,32 @@ and
 	(h_3+0 + 0),\\
 	&=-J_{23}J_{33}^{-1}h_{3}.
 \end{align*}
+\pagebreak
+
+\section*{Problem 3.4}
+(a) Note that
+\begin{align*}
+	p_{\s{x}_a}(\s{x}_a = 0) &\propto \sum_{x_b}\psi_{ab}(0, x_b) = \psi_{ab}(0, 0) +  \psi_{ab}(0, 1) = 1 + 10 = 11,\\
+	p_{\s{x}_a}(\s{x}_a = 1) &\propto \sum_{x_b}\psi_{ab}(1, x_b) = \psi_{ab}(1, 0) +  \psi_{ab}(1, 1) = 1 + 10 = 11.
+\end{align*}
+
+Similarly, $p_{\s{x}_b}(\s{x}_b = 0) = p_{\s{x}_b}(\s{x}_b = 1) = 11$. Therefore, there is no unique maximizing value for each variable's marginal.
+
+Now, if we independently choosing the maximizing values for each variable, we could choose $x_a=0$ and $x_b=0$, resulting in a minimum joint probability $p_{\s{x}_a, \s{x}_b}(0,0) \propto 1$, which does not lead to the maximum of the joint distribution. \qeds
+\\
+
+\noindent
+(b) Let $x_a^*$ be the maximizing value for $\s{x}_a$, that is
+\begin{align*}
+	x_a^* = \argmax_{x_a} \left[\max_{\bs{x}\backslash\{\s{x}_a\}}p_{\bs{x}}(\bm{x}) \right].
+\end{align*}
+%
+
+Now, we can use edge max-marginal to determine $x_b^*$ using
+\begin{align*}
+	x_b^* = \argmax_{x_b} \bigg[\bar{p}_{ab}(x_a^*, x_b)\bigg].
+\end{align*}
+%
+
+Here, $x_a^*$ and $x_b^*$ together maximize the joint probability as $\bar{p}_{ab}(x_a^*, x_b^*) = \max_{x}p_\s{x}(x)$. This is true because otherwise we could have taken the $x_b$ in $\max_{\bs{x}\backslash\{\s{x}_a\}}p_{\bs{x}}(\bm{x})$ when obtaining $x_a^*$ to get a larger edge max-marginal, resulting in a contradiction. 
 \end{document}
