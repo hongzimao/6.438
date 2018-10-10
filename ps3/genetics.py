@@ -133,7 +133,7 @@ def problem_ii():
 
 if __name__ == '__main__':
     print('================================')
-    print('==== (i) after conditioning ====')
+    print('==== (i) before conditioning ====')
     print('================================')
     problem_i_before_conditioning()
 

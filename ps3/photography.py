@@ -18,6 +18,7 @@ def save_bmp(img, marginals, file_name):
     for (i, j) in marginals:
         if i > 0 and j > 0:
             array[i - 1, j - 1] = marginals[(i, j)][0]
+    array = 1 - array  # revert black & white
     array *= 255
     misc.imsave(file_name, array)
 
