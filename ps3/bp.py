@@ -70,7 +70,6 @@ def belief_propagation(node_potential, edge_potential, diameter=np.inf):
                     messages,
                     neighbors)
                 new_messages[(i, j)] = msg
-
         assert len(new_messages) == len(messages)
         messages = new_messages
 

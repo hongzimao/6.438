@@ -1,3 +1,4 @@
+import numpy as np
 from bp import belief_propagation
 from scipy import misc
 
@@ -13,10 +14,10 @@ phi[1][1] = 1
 
 
 def save_bmp(img, marginals, file_name):
-    array = img.copy()
+    array = np.zeros([img.shape[0], img.shape[1]])
     for (i, j) in marginals:
-        array[i, j] = marginals[(i, j)][0]
-
+        if i > 0 and j > 0:
+            array[i - 1, j - 1] = marginals[(i, j)][0]
     array *= 255
     misc.imsave(file_name, array)
 
@@ -58,7 +59,7 @@ def image_denoise(img, alpha, beta):
                     edge_potential[((i, j), (i, j + 1))] = psi_alpha
 
     marginals = belief_propagation(
-        node_potential, edge_potential, diameter=img.shape[0] + img.shape[1])
+        node_potential, edge_potential, diameter=4)
 
     return marginals
 
