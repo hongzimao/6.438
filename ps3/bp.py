@@ -1,3 +1,5 @@
+import numpy as np
+
 
 def ep(edge_potential, i, j, var_i, var_j):
     if (i, j) in edge_potential:
@@ -32,7 +34,7 @@ def normalize_marginals(marginals):
         marginals[node][1] /= p_sum
 
 
-def belief_propagation(node_potential, edge_potential):
+def belief_propagation(node_potential, edge_potential, diameter=np.inf):
     '''
     node_potential: {i -> node_potential}
     edge_potential: {(i, j) -> edge_potential}
@@ -54,8 +56,10 @@ def belief_propagation(node_potential, edge_potential):
         messages[(i, j)] = init_msg
         messages[(j, i)] = init_msg
 
+    d = min(diameter, len(node_potential))
+
     # tree diameter <= total number of nodes
-    for _ in range(len(node_potential)):
+    for _ in range(d):
         new_messages = {}
         for i in node_potential:
             for j in neighbors[i]:
