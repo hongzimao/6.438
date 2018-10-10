@@ -433,15 +433,15 @@ p_{\bs{x}, \bs{y}}(\bm{x}, \bm{y}) &=
 P_{\bs{x}\sim\mathscr{N}^{-1}(\bm{h}_x, \bm{J}_x)}(\bm{x})P_{\bs{y}-\bm{C}\bs{x}
 =\bs{v}\sim\mathscr{N}(0,\bm{R})}(\bm{y}-\bm{C}\bm{x})\\
 &\propto\exp\left[-\frac{1}{2}\bm{x}^T\bm{J}_{\bs{x}}\bm{x}+\bm{h}_\bs{x}^T\bm{x}\right]
-\exp\left[-\frac{1}{2}(\bm{y}-\bm{C}\bm{x})^T\bm{R}(\bm{y}-\bm{C}\bm{x})\right]\\
+\exp\left[-\frac{1}{2}(\bm{y}-\bm{C}\bm{x})^T\bm{R}^{-1}(\bm{y}-\bm{C}\bm{x})\right]\\
 &\propto\exp\left[-\frac{1}{2}\bm{x}^T\bm{J}_{\bs{x}}\bm{x}+\bm{h}_\bs{x}^T\bm{x}\right]
-\exp\left[-\frac{1}{2}(\bm{y}^T\bm{R}\bm{y} - \bm{y}^T\bm{R}\bm{C}\bm{x} - \bm{x}^T\bm{C}^T\bm{R}\bm{y}
-+ \bm{x}^T\bm{C}^T\bm{R}\bm{C}\bm{x})\right]\\
+\exp\left[-\frac{1}{2}(\bm{y}^T\bm{R}^{-1}\bm{y} - \bm{y}^T\bm{R}^{-1}\bm{C}\bm{x} - \bm{x}^T\bm{C}^T\bm{R}^{-1}\bm{y}
++ \bm{x}^T\bm{C}^T\bm{R}^{-1}\bm{C}\bm{x})\right]\\
 &\propto\exp\left[-\frac{1}{2}\big(
-\bm{x}^T(\bm{J}_\bs{x}+\bm{C}^T\bm{R}\bm{C})\bm{x}
-- \bm{y}^T\bm{R}\bm{C}\bm{x}
--\bm{x}^T\bm{C}^T\bm{R}\bm{y}
-+\bm{y}^T\bm{R}\bm{y}\big)
+\bm{x}^T(\bm{J}_\bs{x}+\bm{C}^T\bm{R}^{-1}\bm{C})\bm{x}
+- \bm{y}^T\bm{R}^{-1}\bm{C}\bm{x}
+-\bm{x}^T\bm{C}^T\bm{R}^{-1}\bm{y}
++\bm{y}^T\bm{R}^{-1}\bm{y}\big)
 + \bm{h}_\bs{x}^T\bm{x}\right]\\
 & = \exp\left\{
 -\frac{1}{2}
@@ -449,8 +449,8 @@ P_{\bs{x}\sim\mathscr{N}^{-1}(\bm{h}_x, \bm{J}_x)}(\bm{x})P_{\bs{y}-\bm{C}\bs{x}
     \bm{x}^T & \bm{y}^T
 \end{bmatrix}
 \begin{bmatrix}
-    \bm{J}_\bs{x}+\bm{C}^T\bm{R}\bm{C} & -\bm{C}^T\bm{R} \\
-    -\bm{R}\bm{C} & \bm{R}
+    \bm{J}_\bs{x}+\bm{C}^T\bm{R}^{-1}\bm{C} & -\bm{C}^T\bm{R}^{-1} \\
+    -\bm{R}^{-1}\bm{C} & \bm{R}^{-1}
 \end{bmatrix}
 \begin{bmatrix}
     \bm{x} \\
@@ -469,8 +469,8 @@ P_{\bs{x}\sim\mathscr{N}^{-1}(\bm{h}_x, \bm{J}_x)}(\bm{x})P_{\bs{y}-\bm{C}\bs{x}
 Therefore, the information matrix and potential vector for $p_{\bs{x}, \bs{y}}(\bm{x}, \bm{y})$ are
 \begin{align*}
 	\bm{J}_{\bs{x}, \bs{y}} = \begin{bmatrix}
-    \bm{J}_\bs{x}+\bm{C}^T\bm{R}\bm{C} & -\bm{C}^T\bm{R} \\
-    -\bm{R}\bm{C} & \bm{R}
+    \bm{J}_\bs{x}+\bm{C}^T\bm{R}^{-1}\bm{C} & -\bm{C}^T\bm{R}^{-1} \\
+    -\bm{R}^{-1}\bm{C} & \bm{R}^{-1}
 \end{bmatrix},\;\;\;
 \bm{h}_{\bs{x}, \bs{y}} = 
 \begin{bmatrix}
@@ -480,11 +480,11 @@ Therefore, the information matrix and potential vector for $p_{\bs{x}, \bs{y}}(\
 \end{align*}
 Using the conditional derivation of information matrix and potential vector on $p_{\bs{x}|\bs{y}}(\bm{x}| \bm{y})$, we have
 \begin{align*}
-	\bm{J}_{\bs{x}|\bs{y}} = \bm{J}_\bs{x}+\bm{C}^T\bm{R}\bm{C},
+	\bm{J}_{\bs{x}|\bs{y}} = \bm{J}_\bs{x}+\bm{C}^T\bm{R}^{-1}\bm{C},
 \end{align*}
 and
 \begin{align*}
-	\bm{h}_{\bs{x}|\bs{y}} = \bm{h}_{\bs{x}} - (-\bm{C}^T\bm{R})\bm{y} = \bm{h}_{\bs{x}} + \bm{C}^T\bm{R}\bm{y}.
+	\bm{h}_{\bs{x}|\bs{y}} = \bm{h}_{\bs{x}} - (-\bm{C}^T\bm{R}^{-1})\bm{y} = \bm{h}_{\bs{x}} + \bm{C}^T\bm{R}^{-1}\bm{y}.
 \end{align*}
 \\
 
@@ -519,7 +519,7 @@ Thus, $\bm{C} =
 \end{bmatrix}$.
 %
 
-Plugging in $\bm{C}$, we have $\bm{C}^T\bm{R}\bm{C} = 
+Plugging in $\bm{C}$, we have $\bm{C}^T\bm{R}^{-1}\bm{C} = 
 \begin{bmatrix}
     1 & 0 & 0 & 0 \\
     0 & 0 & 0 & 0 \\
@@ -585,7 +585,7 @@ Hence,
     1 & 0 & 0 & 0 \\
     0 & 0 & 1 & 0 \\
     0 & 0 & 1 & 0
-\end{bmatrix}$, $\bm{C}^T\bm{R}\bm{C} = 
+\end{bmatrix}$, $\bm{C}^T\bm{R}^{-1}\bm{C} = 
 \begin{bmatrix}
     1 & 0 & 0 & 0 \\
     0 & 0 & 0 & 0 \\
@@ -640,8 +640,8 @@ and
 \section*{Problem 3.4}
 (a) Note that
 \begin{align*}
-	p_{\s{x}_a}(\s{x}_a = 0) &\propto \sum_{x_b}\psi_{ab}(0, x_b) = \psi_{ab}(0, 0) +  \psi_{ab}(0, 1) = 1 + 10 = 11,\\
-	p_{\s{x}_a}(\s{x}_a = 1) &\propto \sum_{x_b}\psi_{ab}(1, x_b) = \psi_{ab}(1, 0) +  \psi_{ab}(1, 1) = 1 + 10 = 11.
+	p_{\s{x}_a}(\s{x}_a = 0) &\propto \max_{x_b}\psi_{ab}(0, x_b) = \max\big(\psi_{ab}(0, 0), \psi_{ab}(0, 1)\big) = 10,\\
+	p_{\s{x}_a}(\s{x}_a = 1) &\propto \max_{x_b}\psi_{ab}(1, x_b) = \max\big(\psi_{ab}(1, 0),  \psi_{ab}(1, 1)\big) = 10.
 \end{align*}
 
 Similarly, $p_{\s{x}_b}(\s{x}_b = 0) = p_{\s{x}_b}(\s{x}_b = 1) = 11$. Therefore, there is no unique maximizing value for each variable's marginal.
