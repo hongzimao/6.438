@@ -87,21 +87,3 @@ def belief_propagation(node_potential, edge_potential):
     normalize_marginals(marginals)
 
     return marginals
-
-
-
-# debug
-f = {}
-f[0] = 1
-f[1] = 1
-
-g = {}
-g[(0, 0)] = 1
-g[(1, 1)] = 1
-g[(0, 1)] = 0
-g[(1, 0)] = 0
-
-node_potential = {1: f, 2: f, 3: f, 4: f, 5: f}
-edge_potential = {(1, 2): g, (2, 3): g, (3, 4): g, (2, 5): g}
-
-marginals = belief_propagation(node_potential, edge_potential)
