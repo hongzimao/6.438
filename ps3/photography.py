@@ -36,28 +36,30 @@ def image_denoise(img, alpha, beta):
     node_potential = {}
     edge_potential = {}
 
-    for i in img.shape[0]:
-        for j in img.shape[1]:
+    for i in range(1, img.shape[0] + 1):
+        for j in range(1, img.shape[1] + 1):
             # node potential for actual value and observation
             node_potential[(i, j)] = phi_neutral
-            node_potential[(-i, -j)] = phi[img[i, j]]
+            node_potential[(-i, -j)] = phi[img[i - 1, j - 1]]
             # edge potential for noise
             edge_potential[((i, j), (-i, -j))] = psi_beta
             # edge potential among pixels
-            if i - 1 >= 0:
+            if i - 1 > 0:
                 if ((i - 1, j), (i, j)) not in edge_potential:
                     edge_potential[((i, j), (i - 1, j))] = psi_alpha
-            if i + 1 < img.shape[0]:
+            if i + 1 <= img.shape[0]:
                 if ((i + 1, j), (i, j)) not in edge_potential:
                     edge_potential[((i, j), (i + 1, j))] = psi_alpha
-            if j - 1 < 0:
+            if j - 1 > 0:
                 if ((i, j - 1), (i, j)) not in edge_potential:
                     edge_potential[((i, j), (i, j - 1))] = psi_alpha
-            if j + 1 < img.shape[1]:
+            if j + 1 <= img.shape[1]:
                 if ((i, j + 1), (i, j)) not in edge_potential:
                     edge_potential[((i, j), (i, j + 1))] = psi_alpha
 
-    marginals = belief_propagation(node_potential, edge_potential)
+    marginals = belief_propagation(
+        node_potential, edge_potential, diameter=img.shape[0] + img.shape[1])
+
     return marginals
 
 
