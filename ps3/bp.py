@@ -1,5 +1,3 @@
-import numpy as np
-
 
 def ep(edge_potential, i, j, var_i, var_j):
     if (i, j) in edge_potential:
