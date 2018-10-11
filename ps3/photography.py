@@ -12,6 +12,8 @@ phi[0][1] = 0
 phi[1][0] = 0
 phi[1][1] = 1
 
+sum_prod_steps = 4
+
 
 def save_bmp(img, marginals, file_name):
     array = np.zeros([img.shape[0], img.shape[1]])
@@ -60,7 +62,7 @@ def image_denoise(img, alpha, beta):
                     edge_potential[((i, j), (i, j + 1))] = psi_alpha
 
     marginals = belief_propagation(
-        node_potential, edge_potential, diameter=4)
+        node_potential, edge_potential, diameter=sum_prod_steps)
 
     return marginals
 
@@ -75,7 +77,9 @@ def problem_ii():
         marginals = image_denoise(img, alpha, beta)
         save_bmp(img, marginals,
                  './ii_alpha_' + str(alpha) + \
-                 '_beta_' + str(beta) + '.bmp')
+                 '_beta_' + str(beta) + \
+                 '_iterations_' + str(sum_prod_steps) + \
+                 '.bmp')
 
 
 def problem_iii():
@@ -88,7 +92,9 @@ def problem_iii():
         marginals = image_denoise(img, alpha, beta)
         save_bmp(img, marginals,
                  './iii_alpha_' + str(alpha) + \
-                 '_beta_' + str(beta) + '.bmp')
+                 '_beta_' + str(beta) + \
+                 '_iterations_' + str(sum_prod_steps) + \
+                 '.bmp')
 
 
 if __name__ == '__main__':
