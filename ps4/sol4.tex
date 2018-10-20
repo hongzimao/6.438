@@ -1,0 +1,180 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{bbm}
+\usepackage{dsfont}
+\usepackage{listings}
+
+% set up margin
+\usepackage
+[
+  a4paper,
+  left=3cm,
+  right=3cm,
+  top=3cm,
+  bottom=3cm,
+]
+{geometry}
+
+% set up header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{6.438 Algorithms for Inference}
+\chead{Problem Set 4}
+\rhead{Hongzi Mao}
+\cfoot{\thepage}
+\rfoot{\footnotesize{\emph{Collaborated with: Hongzhou Ye, Zhiwei Ding}}}
+
+% footer line
+\renewcommand{\footrulewidth}{0.4pt}
+
+% sans serif italic
+\newcommand{\s}[1]{\textsf{\textit{#1}}}
+
+% bold face sans serif
+\newcommand{\bs}[1]{\textsf{\textbf{#1}}}
+
+% set symbol
+\usepackage[mathscr]{euscript}
+
+% empty set
+\let\emptyset\varnothing
+
+% qed
+\newcommand{\qeds}{\hfill\qedsymbol}
+
+% math bold face
+\newcommand{\bm}{\mathbf}
+
+% argmax
+\DeclareMathOperator*{\argmax}{argmax}
+
+% independence symbol
+\makeatletter
+\newcommand*{\indep}{%
+  \mathbin{%
+    \mathpalette{\@indep}{}%
+  }%
+}
+\newcommand*{\nindep}{%
+  \mathbin{%                   % The final symbol is a binary math operator
+    \mathpalette{\@indep}{\not}% \mathpalette helps for the adaptation
+                               % of the symbol to the different math styles.
+  }%
+}
+\newcommand*{\@indep}[2]{%
+  \sbox0{$#1\perp\m@th$}%        box 0 contains \perp symbol
+  \sbox2{$#1=$}%                 box 2 for the height of =
+  \sbox4{$#1\vcenter{}$}%        box 4 for the height of the math axis
+  \rlap{\copy0}%                 first \perp
+  \dimen@=\dimexpr\ht2-\ht4-.2pt\relax
+  \kern\dimen@
+  {#2}
+  \kern\dimen@
+  \copy0 %                       second \perp
+} 
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin document here %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+ 
+\section*{Problem 4.5}
+%
+(a) At each loopy BP step, the message follows
+\begin{align*}
+	m_{j\to i}(x_i) = \sum_{x_j}\exp(\beta x_i x_j)\prod_{k\in \partial j \backslash i} m_{k\to j}(x_j),
+\end{align*}
+where $\partial j$ denotes the four neighboring nodes of $j$.
+\\
+
+\noindent
+(b) Assume the message is invariant under translation, we have
+\begin{align*}
+	m(1) &= \exp(\beta)m(1)^3 + \exp(-\beta)m(-1)^3\\
+	m(-1) &= \exp(-\beta)m(1)^3 + \exp(\beta)m(-1)^3.
+\end{align*}
+%
+
+Therefore, 
+\begin{align*}
+	m(x) = \exp(\beta)m(x)^3 + \exp(-\beta)m(-x)^3.\\
+\end{align*}
+\\
+
+\noindent
+(c) Massaging terms in $h$, we have
+\begin{align*}
+	m(1) &= \exp(2\beta h)m(-1)\\
+	m(-1) &= \exp(-2\beta h)m(1).
+\end{align*}
+%
+
+Since $Z = m(1) + m(-1)$,
+\begin{align*}
+	Z &= m(1) + \exp(-2\beta h)m(1)\\
+	Z &= \exp(2\beta h)m(-1) + m(-1).
+\end{align*}
+%
+
+Thus,
+\begin{align*}
+	m(x) = \frac{Z}{1 + \exp(-2\beta h x)}.
+\end{align*}
+%
+
+Now we plug in results from (b) for $m(1) / m(-1)$, we have
+\begin{align*}
+	\exp(2\beta h) = \frac{m(1)}{m(-1)} &=
+	\frac{\exp(\beta)m(1)^3 + \exp(-\beta)m(-1)^3}{\exp(-\beta)m(1)^3 + \exp(\beta)m(-1)^3} \\
+	&=\frac{\frac{\exp(\beta)Z^3}{\big[1 + \exp(-2\beta h)\big]^3} +
+	  \frac{\exp(-\beta)Z^3}{\big[1 + \exp(2\beta h)\big]^3}}
+	  {\frac{\exp(-\beta)Z^3}{\big[1 + \exp(-2\beta h)\big]^3} + 
+	  \frac{\exp(\beta)Z^3}{\big[1 + \exp(2\beta h)\big]^3}}\\
+	&=\frac{\frac{\exp(\beta)\exp(6\beta h)}{\big[\exp(2\beta h) + 1\big]^3} +
+	  \frac{\exp(-\beta)}{\big[1 + \exp(2\beta h)\big]^3}}
+	  {\frac{\exp(-\beta)\exp(6\beta h)}{\big[\exp(2\beta h) + 1\big]^3} + 
+	  \frac{\exp(\beta)}{\big[1 + \exp(2\beta h)\big]^3}}\\
+	&=\frac{\exp(\beta)\exp(3\beta h) +
+	        \exp(-\beta)\exp(-3\beta h)}
+	       {\exp(-\beta)\exp(3\beta h) +
+	        \exp(\beta)\exp(-3\beta h)}.
+\end{align*}
+%
+
+Finally,
+\begin{align*}
+	\tanh(\beta h) &= \frac{\exp(2\beta h) - 1}{ \exp(2\beta h) + 1} \\
+	&= \frac{\frac{\exp(\beta)\exp(3\beta h) +
+	        \exp(-\beta)\exp(-3\beta h)}
+	       {\exp(-\beta)\exp(3\beta h) +
+	        \exp(\beta)\exp(-3\beta h)} - 1}
+	        {\frac{\exp(\beta)\exp(3\beta h) +
+	        \exp(-\beta)\exp(-3\beta h)}
+	       {\exp(-\beta)\exp(3\beta h) +
+	        \exp(\beta)\exp(-3\beta h)} + 1} \\
+    &= \frac{\exp(\beta)\exp(3\beta h) + \exp(-\beta)\exp(-3\beta h) -
+             {\exp(-\beta)\exp(3\beta h) - \exp(\beta)\exp(-3\beta h)}}
+            {\exp(\beta)\exp(3\beta h) + \exp(-\beta)\exp(-3\beta h) +
+             {\exp(-\beta)\exp(3\beta h) + \exp(\beta)\exp(-3\beta h)}} \\
+    &= \frac{\big[\exp(\beta) - \exp(-\beta)\big]
+             \big[\exp(3\beta h) - \exp(-3\beta h)\big]}
+            {\big[\exp(\beta) + \exp(-\beta)\big]
+             \big[\exp(3\beta h) + \exp(-3\beta h)\big]}\\
+    &= \tanh(\beta) \tanh(3\beta h).
+\end{align*}\qeds
+\\
+
+(d)
+\end{document}
