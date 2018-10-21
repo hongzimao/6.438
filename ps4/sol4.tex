@@ -176,5 +176,59 @@ Finally,
 \end{align*}\qeds
 \\
 
-(d)
+\noindent
+(d) Since $m(x) = Z/\big(1 + \exp(-2\beta h x)\big)$, we only need to determine the value
+of $\beta h$ to find the fixed message. We denote $k = \beta h$. Notice from (c) that
+\begin{align*}
+	\frac{\tanh(k)}{\tanh(3k)} = \frac{\tanh(\beta h)}{\tanh(3\beta h)} = \tanh(\beta).
+\end{align*}
+%
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\columnwidth]{5d.pdf}
+    \vspace{-0.1cm}
+  \caption{$\tanh(k)/\tanh(5k)$, plotted over $k\in(-5,5)$. The intersection with y-axis is at $1/3$.}
+  \label{f:5d}
+\end{figure}
+%
+
+To find the solution fo $k$ is equivalent to find the intersection of $\tanh(k)/\tanh(3)$ and $\tanh(\beta)$.
+We first note that $\tanh(0) = 0$, and $\tanh'(k) = \text{sech}(k)$ and $\tanh'(3k) = 3\text{sech}(k)$,
+applying L'Hospital's Rule,
+\begin{align*}
+	\lim_{k\to 0} \frac{\tanh(k)}{\tanh(3k)} = \lim_{k\to 0} \frac{\tanh'(k)}{\tanh'(3k)} = \lim_{k\to 0} \frac{\text{sech}(k)}{3\text{sech}(k)} = \frac{1}{3}.
+\end{align*}
+
+Second, note that $\tanh(k)/\tanh(3k)$ is symmetric, i.e., 
+\begin{align*}
+	\frac{\tanh(-k)}{\tanh(-3k)} = \frac{-\tanh(k)}{-\tanh(3k)} = \frac{\tanh(k)}{\tanh(3k)}.
+\end{align*}
+
+Lastly, $\tanh(k)/\tanh(3k)$ increases monotonically for $k>0$ (and decreases monotonically for $k<0$).
+This is  because we can write
+\begin{align*}
+	\frac{\tanh(k)}{\tanh(3k)} &= \frac{\exp(k) - \exp(-k)}{\exp(k) + \exp(-k)}
+	\times\frac{\exp(3k) + \exp(-3k)}{\exp(3k) - \exp(-3k)}\\
+	&=\frac{\exp(k) - \exp(-k)}{\exp(k) + \exp(-k)}\times
+	\frac{\exp(k) + \exp(-5k)}{\exp(k) - \exp(-5k)}.
+\end{align*}
+Here, as $k>0$ increases, $\exp(-k)$ gets increasingly smaller; and $\exp(-k)$ always overwhelms $\exp(-5k)$.
+As a result, $\tanh(k)/\tanh(3k)$ monotonically increases for $k>0$. The upper bound for this expression is
+\begin{align*}
+	\lim_{k\to\infty}\frac{\tanh(k)}{\tanh(3k)} &= 
+	\lim_{k\to\infty}\frac{\exp(k) - \exp(-k)}{\exp(k) + \exp(-k)}
+	\times\lim_{k\to\infty}\frac{\exp(3k) + \exp(-3k)}{\exp(3k) - \exp(-3k)}\\
+	&= \lim_{k\to\infty}\frac{1 - \exp(-2k)}{1 + \exp(-2k)}
+	\times\lim_{k\to\infty}\frac{1 + \exp(-6k)}{1 - \exp(-6k)}\\
+	&= 1.
+\end{align*}
+
+Figure~\ref{f:5d} visualizes $\tanh(k)/\tanh(3k)$. Therefore, when $\tanh(\beta) > 1/3$ (notice 
+$\lim_{\beta\to\pm\infty}\tanh(\beta)=1$), $\tanh(k)/\tanh(3k) = \tanh(\beta)$ will have two
+symmetric solutions. Moreover, since $m(x) = 0$ is always a solution (not expressed in (b)),
+the LBP will have three distinct fixed points. \qeds
+\\
+
+\noindent
+(e)
 \end{document}
