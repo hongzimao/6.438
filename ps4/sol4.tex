@@ -384,7 +384,7 @@ of $\beta h$ to find the fixed message. We denote $k = \beta h$. Notice from (c)
 %
 
 To find the solution fo $k$ is equivalent to find the intersection of $\tanh(k)/\tanh(3)$ and $\tanh(\beta)$.
-We first note that $\tanh(0) = 0$, and $\tanh'(k) = \text{sech}(k)$ and $\tanh'(3k) = 3\text{sech}(k)$,
+We first note that $\tanh(0) = 0$, $\tanh'(k) = \text{sech}(k)$ and $\tanh'(3k) = 3\text{sech}(k)$,
 applying L'Hospital's Rule,
 \begin{align*}
 	\lim_{k\to 0} \frac{\tanh(k)}{\tanh(3k)} = \lim_{k\to 0} \frac{\tanh'(k)}{\tanh'(3k)} = \lim_{k\to 0} \frac{\text{sech}(k)}{3\text{sech}(k)} = \frac{1}{3}.
@@ -421,5 +421,40 @@ the LBP has three distinct fixed points. \qeds
 \\
 
 \noindent
-(e)
+(e) For ferromagnetic Ising model, we assume temperature $\beta >0$. The convergence of LBP depends on the 
+initialization of $m(1)$ and $m(-1)$. Specifically,
+\begin{enumerate}
+	\item Initializing $m(1) = m(-1)$, i.e., $h=\frac{1}{2\beta}\log \frac{m(1)}{m(-1)} = 0$, LBP converges to
+	the fixed point at 0 for all $\beta > 0$. We can check this in the update equation
+	$m(1) = m(-1) = [\exp(\beta) + \exp(-\beta)]m(1)^3$
+	(assume that we perform normalization after each update step).
+	\item With initialization $m(1) > m(-1)$, i.e., $h=\frac{1}{2\beta}\log \frac{m(1)}{m(-1)} > 0$, and
+	$\tanh(\beta) > 1/3$ from (c), LBP 
+	converges to the positive fixed point. This can be shown by considering
+	\begin{align*}
+		\left[\frac{m(1)}{m(-1)}\right]_t &= 
+		\frac{\exp(\beta)m_t(1)^3 + \exp(-\beta)m_t(-1)^3}{\exp(-\beta)m_t(1)^3 + \exp(\beta)m_t(-1)^3}\\
+		&=\frac{\exp(\beta)\big[m(1)/m(-1)\big]_t^3 +
+		\exp(-\beta)}{\exp(-\beta)\big[m(1)/m(-1)\big]_t^3 + \exp(\beta)}.
+	\end{align*}
+	Let $\mu_t = \big[m(1)/m(-1)\big]_t$ for each iteration step $t$, we have
+	\begin{align*}
+		\mu_{t+1} = \frac{\exp(2\beta)\mu_t^3 + 1}{\mu_t^3 + \exp(2\beta)}.
+	\end{align*}
+	Here, the iterative update for $\mu_t$ is a monotonically increasing function and $\mu$ is upper bounded
+	by $\exp(2\beta)$. Therefore, the iterative update must converge. From (c) we know $\tanh(\beta) > 1/3$ 
+	yields a positive fixed point that the iterative update will converge to.
+	\item Similarly, with initialization $m(1) < m(-1)$, 
+	i.e., $h=\frac{1}{2\beta}\log \frac{m(1)}{m(-1)} < 0$, and
+	$\tanh(\beta) > 1/3$ from (c), LBP 
+	converges to the negative fixed point. The argument follows the previous case.
+\end{enumerate}
+
+\noindent
+(f) The fixed point evolves from 0 to the positive or negative fixed point (depending on the initialization of $m(1)/m(-1)$). The tipping point for transition from neutral to polarized is when $\tanh(\beta_c) > 1/3$. The approximate value of the critical temperature is given by
+\begin{align*}
+	\beta_c = \tanh^{-1}\left(\frac{1}{3}\right)\approx0.3466.
+\end{align*}
+
+
 \end{document}
