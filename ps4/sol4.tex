@@ -58,6 +58,7 @@
 
 % argmax
 \DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
 
 % independence symbol
 \makeatletter
@@ -89,7 +90,87 @@
 %%%%%%%%%%%%%%%%%%%%%%%%% Begin document here %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
- 
+
+\section*{Problem 4.1}
+%
+(a) The desired function $f(\cdot)$ has the form
+\begin{align*}
+	f(\hat{x}_i) = 1 - \hat{x}_i.
+\end{align*}
+\\
+
+\noindent
+(b)
+%
+Consider the following arrangements of $p_{\s{x}_1, \s{x}_2}(\cdot, \cdot)$
+and $p'_{\s{x}_1, \s{x}_2}(\cdot, \cdot)$,
+\begin{align*}
+	p_{\s{x}_1, \s{x}_2}(1, 1) &= 1/10,\\
+	p_{\s{x}_1, \s{x}_2}(0, 1) &= 2/10,\\
+	p_{\s{x}_1, \s{x}_2}(0, 0) &= 3/10,\\
+	p_{\s{x}_1, \s{x}_2}(1, 0) &= 4/10,
+\end{align*}
+
+and
+\begin{align*}
+	p'_{\s{x}_1, \s{x}_2}(1, 1) &= 2/10,\\
+	p'_{\s{x}_1, \s{x}_2}(0, 1) &= 1/10,\\
+	p'_{\s{x}_1, \s{x}_2}(0, 0) &= 4/10,\\
+	p'_{\s{x}_1, \s{x}_2}(1, 0) &= 3/10.
+\end{align*}
+
+Then the marginals coincide, since
+\begin{align*}
+	p_{\s{x}_1}(1) = p_{\s{x}_1, \s{x}_2}(1, 0) + p_{\s{x}_1, \s{x}_2}(1, 1) = 4/10 + 1/10 = 1/2,\\
+	p'_{\s{x}_1}(1) = p'_{\s{x}_1, \s{x}_2}(1, 0) + p'_{\s{x}_1, \s{x}_2}(1, 1) = 3/10 + 2/10 = 1/2,
+\end{align*}
+
+and
+\begin{align*}
+	p_{\s{x}_2}(1) = p_{\s{x}_1, \s{x}_2}(0, 1) + p_{\s{x}_1, \s{x}_2}(1, 1) = 2/10 + 1/10 = 3/10,\\
+	p'_{\s{x}_2}(1) = p'_{\s{x}_1, \s{x}_2}(0, 1) + p'_{\s{x}_1, \s{x}_2}(1, 1) = 1/10 + 2/10 = 3/10.
+\end{align*}
+
+But the desired states for $p_{\s{x}_1, \s{x}_2}(\cdot, \cdot)$
+and $p'_{\s{x}_1, \s{x}_2}(\cdot, \cdot)$ are different, since
+\begin{align*}
+	\argmin_{x_1, x_2}\ p_{\s{x}_1, \s{x}_2}(1-x_1, 1-x_2) = (0, 0),\\
+	\argmin_{x_1, x_2}\ p'_{\s{x}_1, \s{x}_2}(1-x_1, 1-x_2) = (1, 0).
+\end{align*}\qeds
+\\
+
+\noindent
+(c)
+%
+Consider the following arrangement for $p_{\s{x}_1, \s{x}_2}(\cdot, \cdot)$,
+\begin{align*}
+	p_{\s{x}_1, \s{x}_2}(1, 1) &= 4/10,\\
+	p_{\s{x}_1, \s{x}_2}(0, 1) &= 1/10,\\
+	p_{\s{x}_1, \s{x}_2}(0, 0) &= 2/10,\\
+	p_{\s{x}_1, \s{x}_2}(1, 0) &= 3/10.
+\end{align*}
+
+Now the MAP estimates differ from the desired states, since
+\begin{align*}
+	&\argmax_{x_1, x_2}\ p_{\s{x}_1, \s{x}_2}(x_1, x_2) = (1, 1),\\
+	&\argmin_{x_1, x_2}\ p_{\s{x}_1, \s{x}_2}(1-x_1, 1-x_2) = (1, 0).
+\end{align*}\qeds
+\\
+
+\noindent
+(d)
+%
+Notice that the potential are all positive, we can replace each potential with its reciprocal.
+Now in Viterbi algorithm, at each step of the max-product in the new graph, the argmax will correspond
+to the argmin for the original graph. At the end, we can flip the arguments (i.e., take $1-x_i$ for each $i$)
+and obtain the desired states.
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section*{Problem 4.3}
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section*{Problem 4.5}
 %
 (a) At each loopy BP step, the message follows
