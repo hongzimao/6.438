@@ -160,10 +160,10 @@ Now the MAP estimates differ from the desired states, since
 \noindent
 (d)
 %
-Notice that the potential are all positive, we can replace each potential with its reciprocal.
+Notice that the potential are all positive, we can replace each potential with its reciprocal, i.e., let edge potential $\psi^{\text{new}}_{i, j}(\cdot, \cdot) = 1/\psi_{i, j}(\cdot, \cdot)$ for all edges in HMM.
 Now in Viterbi algorithm, at each step of the max-product in the new graph, the argmax will correspond
 to the argmin for the original graph. At the end, we can flip the arguments (i.e., take $1-x_i$ for each $i$)
-and obtain the desired states.
+to obtain the desired states.
 
 \pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
