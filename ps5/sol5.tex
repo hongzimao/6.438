@@ -30,7 +30,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{6.438 Algorithms for Inference}
-\chead{Problem Set 4}
+\chead{Problem Set 5}
 \rhead{Hongzi Mao}
 \cfoot{\thepage}
 \rfoot{\footnotesize{\emph{Collaborated with: Hongzhou Ye, Zhiwei Ding}}}
@@ -148,7 +148,7 @@ Now, from Equation~\eqref{51b2}, we have
 \begin{align*}
 	p_{\s{x}_1, \s{x}_2, \s{x}_3}(0, 0, 0) \leq 0.01,
 \end{align*}
-from from Equation~\eqref{51b3}, we have
+from Equation~\eqref{51b3}, we have
 \begin{align*}
 	p_{\s{x}_1, \s{x}_2, \s{x}_3}(0, 0, 1) \leq 0.01.
 \end{align*}
@@ -238,13 +238,13 @@ and the background
 
 If we compute the mean and covariance using pixel range $[0, 1]$ instead of $[0, 255]$, we will have for the foreground
 \begin{align*}
-	\mu_1' = 
+	\mu_1 = 
 	\begin{bmatrix}
     0.6600 \\
     0.3733 \\
     0.0333
 \end{bmatrix}, \;\;\,
-	\mathbf{\Lambda}_1' =
+	\mathbf{\Lambda}_1 =
 \begin{bmatrix}
  0.4909 & 0.3091 & 0.0228 \\
  0.3091 & 0.2194 & 0.0133 \\
@@ -253,13 +253,13 @@ If we compute the mean and covariance using pixel range $[0, 1]$ instead of $[0,
 \end{align*}
 and the background
 \begin{align*}
-	\mu_0' = 
+	\mu_0 = 
 	\begin{bmatrix}
     0.3090 \\
     0.3102 \\
     0.1617
 \end{bmatrix}, \;\;\,
-	\mathbf{\Lambda}_0' =
+	\mathbf{\Lambda}_0 =
 \begin{bmatrix}
 0.1735 & 0.1665 & 0.0977 \\
 0.1665 & 0.1639 & 0.0961 \\
@@ -761,4 +761,283 @@ def compute_mean_var(image, ground):
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section*{Problem 5.3}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section*{Problem 5.5}
+(a) The computation trees corresponding to the first 4 iterations
+are shown in Figure~\ref{f:55a}.
+%
+\begin{figure}[h]
+  \centering
+	\begin{subfigure}[t]{0.15\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{55a1.pdf}
+	\vspace{-0.6cm}
+	\caption{iteration=1.}
+	\end{subfigure}
+	%
+		\begin{subfigure}[t]{0.23\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{55a2.pdf}
+	\vspace{-0.6cm}
+	\caption{iteration=2.}
+	\end{subfigure}
+	%
+		\begin{subfigure}[t]{0.23\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{55a3.pdf}
+	\vspace{-0.6cm}
+	\caption{iteration=3.}
+	\end{subfigure}
+	%
+		\begin{subfigure}[t]{0.29\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{55a4.pdf}
+	\vspace{-0.6cm}
+	\caption{iteration=4.}
+	\end{subfigure}
+  \caption{Computation trees corresponding to the first 4
+  iterations of loopy belief propagation.}
+  \label{f:55a}
+\end{figure}
+%
+\\
+
+\noindent
+(b) 
+With the joint distribution, we can assign the node potential to $\s{x}_2$
+and $\s{x}_5$ to be $\psi_2(x_2)$ and $\psi_2(x_5)$; constant 1 to all other nodes;
+and edge potential $\mathds{1}_{x_i = x_j}$ to all edges $(i, j) \in \mathscr{E}$.
+%
+\\
+
+\noindent
+\textbf{Iteration 1.} Notice that for the message from $\s{x}_1$ and $\s{x}_3$,
+%
+\begin{align*}
+	m^{t=1}_{1\to2}(x_2) &= \sum_{x_1}\mathds{1}_{x_1 = x_2} = 1,\\
+	m^{t=1}_{3\to2}(x_2) &= \sum_{x_3}\mathds{1}_{x_3 = x_2} = 1.
+\end{align*}
+%
+For the message from $\s{x}_5$,
+%
+\begin{align*}
+	m^{t=1}_{5\to2}(x_2) &=
+	\sum_{x_5}\psi_5(x_5)\mathds{1}_{x_5 = x_2} = \psi_5(x_2).
+\end{align*}
+%
+Thus,
+%
+\begin{align*}
+	p^{t=1}_{\s{x}_2}(x_2) \propto \psi_2(x_2)\psi_5(x_2).
+\end{align*}
+%
+Specifically,
+%
+\begin{align}
+	p^{t=1}_{\s{x}_2}(x_2=0) \propto \psi_2(0)\psi_5(0) = (1 - \gamma)\gamma,\\
+	p^{t=1}_{\s{x}_2}(x_2=1) \propto \psi_2(1)\psi_5(1) = \gamma(1 - \gamma).
+\end{align}
+%
+Hence, 
+\begin{align}
+	p^{t=1}_{\s{x}_2}(x_2=0) = p^{t=1}_{\s{x}_2}(x_2=1) = 0.5.
+\end{align}
+
+\noindent
+\textbf{Iteration 2.} Notice that the message from $\s{x}_4$ to $\s{x}_1$ is
+%
+\begin{align*}
+	m^{t=1}_{4\to1}(x_1) &= \sum_{x_4}\mathds{1}_{x_4 = x_1} = 1,
+\end{align*}
+%
+and the same message applies to all leaves in iteration 2, $m^{t=1}_{4\to5}(x_5)$,
+$m^{t=1}_{6\to5}(x_5)$ and $m^{t=1}_{6\to3}(x_3)$.
+%
+Thus, they do not influence the message passing to $\s{x}_2$ at iteration 2.
+%
+Therefore,
+%
+\begin{align}
+	p^{t=2}_{\s{x}_2}(x_2=0) = p^{t=2}_{\s{x}_2}(x_2=1) = 0.5.
+\end{align}
+
+\noindent
+\textbf{Iteration 3.} Notice that the messages from $\s{x}_5$ to $\s{x}_4$ and
+$\s{x}_5$ to $\s{x}_6$ are
+%
+\begin{align*}
+	m^{t=1}_{5\to4}(x_4) &= \sum_{x_5}\psi_5(x_5)\mathds{1}_{x_5 = x_4} = \psi_5(x_4),\\
+	m^{t=1}_{5\to6}(x_6) &= \sum_{x_5}\psi_5(x_5)\mathds{1}_{x_5 = x_6} = \psi_5(x_6).
+\end{align*}
+%
+Similar as before, the messages from from $\s{x}_1$ to $\s{x}_4$ and $\s{x}_3$ to $\s{x}_6$ are 1.
+%
+Since the message from leaves $\s{x}_5$ carries over all the way to $\s{x}_2$, we have
+%
+\begin{align}
+	p^{t=3}_{\s{x}_2}(x_2=0) \propto \psi_5^3(0)\psi_2(0) = \gamma^3(1 - \gamma),\\
+	p^{t=3}_{\s{x}_2}(x_2=1) \propto \psi_5^3(1)\psi_2(1) = (1 - \gamma)^3\gamma.
+\end{align}
+%
+After normalization,
+\begin{align}
+	p^{t=3}_{\s{x}_2}(x_2=0) = 
+		\frac{\gamma^3(1 - \gamma)}{\gamma^3(1 - \gamma) + (1 - \gamma)^3\gamma},\\
+	p^{t=3}_{\s{x}_2}(x_2=1) =
+		\frac{(1 - \gamma)^3\gamma}{{\gamma^3(1 - \gamma) + (1 - \gamma)^3\gamma}}.
+\end{align}
+
+\noindent
+\textbf{Iteration 4.} Notice that the message from $\s{x}_2$ to $\s{x}_5$ is
+\begin{align*}
+	m^{t=1}_{2\to5}(x_5) &= \sum_{x_2}\psi_2(x_2)\mathds{1}_{x_2 = x_5} = \psi_2(x_5).
+\end{align*}
+%
+and the similar message applies to $m^{t=1}_{2\to1}(x_1)$,
+$m^{t=1}_{2\to3}(x_3)$ and $m^{t=1}_{2\to5}(x_5)$.
+%
+Similar as before, the messages from from $\s{x}_6$ to $\s{x}_5$
+and $\s{x}_4$ to $\s{x}_5$ are 1.
+%
+Since the messages carries over, e.g.,
+\begin{align*}
+	m^{t=2}_{5\to4}(x_4) &= \sum_{x_5}\psi_5(x_5)\mathds{1}_{x_5 = x_4}\psi_2(x_5)
+	= \psi_5(x_4)\psi_2(x_4),
+\end{align*}
+%
+we have
+\begin{align}
+	p^{t=4}_{\s{x}_2}(x_2=0) \propto \psi_5^3(0)\psi_2(0)^5 = \gamma^3(1 - \gamma)^5,\\
+	p^{t=4}_{\s{x}_2}(x_2=1) \propto \psi_5^3(1)\psi_2(1)^5 = (1 - \gamma)^3\gamma^5.
+\end{align}
+%
+After normalization,
+\begin{align}
+	p^{t=3}_{\s{x}_2}(x_2=0) = 
+		\frac{\gamma^3(1 - \gamma)^5}{\gamma^3(1 - \gamma)^5 + (1 - \gamma)^3\gamma^5},\\
+	p^{t=3}_{\s{x}_2}(x_2=1) =
+		\frac{(1 - \gamma)^3\gamma^5}{{\gamma^3(1 - \gamma)^5 + (1 - \gamma)^3\gamma^5}}.
+\end{align}
+\\
+
+\noindent
+(c) From the joint distribution, we directly have
+\begin{align*}
+	p_{\s{x}_1,\s{x}_2,\s{x}_3,\s{x}_4,\s{x}_5,\s{x}_6}(0,0,0,0,0,0) \propto
+	\psi_2(0)\psi_5(0) = (1-\gamma)\gamma,\\
+	p_{\s{x}_1,\s{x}_2,\s{x}_3,\s{x}_4,\s{x}_5,\s{x}_6}(1,1,1,1,1,1) \propto
+	\psi_2(1)\psi_5(1) = \gamma(1-\gamma),
+\end{align*}
+and all other assignments of $\s{x}_i$ have probability 0 because of the edge constraints.
+%
+
+Thus, we have
+\begin{align}
+	p_{\s{x}_i}(0) = p_{\s{x}_i}(1) = 0.5,
+\end{align}
+for all $i\in\{1,2,3,4,5,6\}$.
+%
+
+Now focus on node $\s{x}_1$, to achieve this marginal, we have
+\begin{align*}
+	&p_{\s{x}_1}(0) = m_{2\to 1}(0) \times m_{4\to 1}(0)
+				   = \beta \times m_{4\to 1}(0),\\
+	&p_{\s{x}_1}(1) = m_{2\to 1}(1) \times m_{4\to 1}(1)
+				   = (1-\beta) \times m_{4\to 1}(1).
+\end{align*}
+% 
+Since $p_{\s{x}_1}(0) = p_{\s{x}_1}(1),$ we have
+\begin{align}
+	m_{4\to 1}(0) = 1- \beta, \label{5c1} \\
+	m_{4\to 1}(1) = \beta \label{5c2}.
+\end{align}
+%
+Similarly, we have
+\begin{align}
+	m_{6\to 3}(0) = 1- \alpha, \label{5c3} \\
+	m_{6\to 3}(1) = \alpha. \label{5c4}
+\end{align}
+%
+Now, we know the node potential on $\s{x}_1$, $\s{x}_4$, $\s{x}_3$ and
+$\s{x}_6$ pertains constants. Thus,
+\begin{align}
+	m_{1\to 4}(0) = m_{2\to 1}(0) = \beta,\;\;\,
+	m_{1\to 4}(1) = m_{2\to 1}(1) = 1 - \beta,\\
+	m_{3\to 6}(0) = m_{2\to 3}(0) = \alpha,\;\;\,
+	m_{3\to 6}(1) = m_{2\to 3}(1) = 1 - \alpha.
+\end{align}
+%
+Using the similar argument for $\s{x}_4$
+and $\s{x}_6$, we have
+\begin{align}
+	m_{4\to 5}(0) = m_{1\to 4}(0) = \beta,\;\;\,
+	m_{4\to 5}(1) = m_{1\to 4}(1) = 1 - \beta,\\
+	m_{6\to 5}(0) = m_{3\to 6}(0) = \alpha,\;\;\,
+	m_{6\to 5}(1) = m_{3\to 6}(1) = 1 - \alpha.	
+\end{align}
+%
+Now we consider the marginal on $\s{x}_5$, we have
+\begin{align*}
+	&p_{\s{x}_5}(0) = \psi_5(0) \times m_{4\to 5}(0) \times
+					  m_{6\to 5}(0) \times m_{2\to 5}(0)
+				   = \alpha\beta\gamma\, m_{2\to 5}(0),\\
+	&p_{\s{x}_5}(1) = \psi_5(1) \times m_{4\to 5}(1) \times
+					  m_{6\to 5}(1) \times m_{2\to 5}(1)
+				   = (1-\alpha)(1-\beta)(1-\gamma)\, m_{2\to 5}(1).
+\end{align*}
+Therefore, let $m_{2\to5}(0) = m$, $m_{2\to5}(1) = 1 - m$,
+\begin{align}
+	\alpha\,\beta\,\gamma\,m = (1-\alpha)(1-\beta)(1-\gamma)(1-m). \label{55cc}
+\end{align}
+%
+Notice that at this point, whatever $alpha, \beta, m$ we choose, the message
+passing equations will automatically satisfy the marginal constraint on $\s{x}_1$\footnote{As we will see at the end, the constraint is symmetrically  $(1-\alpha)(1-\beta)(1-\gamma)(1-m) = \alpha\,\beta\,\gamma\,m$.}, we get to choose $\alpha, \beta, m$ to let~\eqref{55cc} hold. The possible choices are
+%
+\begin{align}
+	\alpha = 0.5, \beta = (1-\gamma);	
+\end{align}
+%
+and
+%
+\begin{align}
+	\alpha = 1-\gamma, \beta = 0.5;	
+\end{align}
+%
+and
+%
+\begin{align}
+	\alpha = 0.5, \beta = 0.5.
+\end{align}
+%
+The corresponding $m$ corresponding to the above three choices are $0.5, 0.5, 1-\gamma$.
+%
+
+Similar to the argument about nodes $\s{x}_1, \s{x}_3$ do not carry variable node 
+potentials, using
+equations~\eqref{5c1}~\eqref{5c2}~\eqref{5c3}~\eqref{5c4}, we have the messages
+\begin{align}
+	m_{1\to 2}(0) = m_{4\to 1}(0) = 1 - \beta,\;\;\,
+	m_{1\to 2}(1) = m_{4\to 1}(1) = \beta,\\
+	m_{3\to 2}(0) = m_{6\to 3}(0) = 1 - \alpha,\;\;\,
+	m_{3\to 2}(1) = m_{6\to 3}(1) = \alpha.
+\end{align}
+%
+Similar to the argument about the marginal constraint on $\s{x}_2$, we have
+%
+\begin{align}
+	(1-\alpha)(1-\beta)(1-\gamma)m_{5\to2}(0) = \alpha\,\beta\,\gamma\,m_{5\to2}(1),
+\end{align}
+%
+Since $m_{5\to2}(0) + m_{5\to2}(1) = 1$, we have
+%
+\begin{align}
+	m_{5\to2}(0) = \frac{\alpha\,\beta\,\gamma}{\alpha\,\beta\,\gamma +
+	(1-\alpha)(1-\beta)(1-\gamma)},\\
+	m_{5\to2}(1) = \frac{(1-\alpha)(1-\beta)(1-\gamma)
+	}{\alpha\,\beta\,\gamma +
+	(1-\alpha)(1-\beta)(1-\gamma)}.
+\end{align}
+
 \end{document}
