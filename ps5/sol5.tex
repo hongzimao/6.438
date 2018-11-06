@@ -763,6 +763,82 @@ def compute_mean_var(image, ground):
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section*{Problem 5.3}
+(a)
+Since $p_{\bm{x}}(\mathbf{x}) = \mathscr{N}(\mathbf{x} | \mu, J^{-1})$, we have
+\begin{align*}
+	b_1^{t+1}(x_1) &= K' \exp\left\{\int b_2^{t}(x_2)
+	\log\big[p_{\bm{x}}(\mathbf{x})\big]dx_2\right\} \\
+	&= K' \exp\left\{\int b_2^{t}(x_2)
+	\left[\log\left(\frac{1}{(2\pi)|J^{-1}|^{-\frac{1}{2}}}\right) - 
+	\frac{1}{2}(\bm{x}-\mu)^T J (\bm{x}-\mu)\right]dx_2\right\}\\
+	& = K''\exp\left\{-\frac{1}{2}\int b^t_2(x_2)
+	\begin{bmatrix}
+		x_1 - \mu_1 & x_2 - \mu_2 \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		J_{11} & J_{12} \\
+		J_{21} & J_{22}
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 - \mu_1 \\
+		x_2 - \mu_2
+	\end{bmatrix}
+	dx_2
+\right\}\\
+&\text{(note we absorb the constants in $K''$)}\\
+&= K''\exp\bigg\{-\frac{1}{2}\bigg[J_{11}(x_1-\mu_1)^2 \int
+b_2^t(x_2)dx_2 \\
+&\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;+
+2J_{12}(x_1-\mu_1)\int b^t_2(x_2)(x_2-\mu_2)dx_2\\
+&\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;+
+J_{22}\int b^t_2(x_2)(x_2-\mu_2)^2dx_2 \bigg]\bigg\}.
+\end{align*}
+%
+
+Notice that $b_1^{t+1}(x_1)$ is a Gaussian density in $x_1$, regardless
+of the distribution of $b_2^t(x_2)$ (since it is integrated out; and the Gaussian form will be more clear in Equation~\eqref{eq:53a1}).
+%
+To determine the normalization constant $K'$, we let
+\begin{align*}
+	x_1' &= x_1 - \mu_1 \\
+	A &= J_{11}\int b_2^t(x_2)dx_2 \\
+	B &= 2J_{12}\int b^t_2(x_2)(x_2-\mu_2)dx_2\\
+	C & = J_{22}\int b^t_2(x_2)(x_2-\mu_2)^2dx_2,
+\end{align*}
+then
+\begin{align}
+	b_1^{t+1}(x_1) &= K''\exp\Big[-\frac{1}{2} \left(A x_1'^2 + B x_1' + C\right)\Big] \label{eq:53a1}.
+\end{align}
+%
+
+By completing the square,
+\begin{align*}
+	b_1^{t+1}(x_1) &= K''\exp\Big[-\frac{1}{2}
+	\frac{(x' - B/2A)^2 + C/A - B^2 / 4A^2}{1/A}\Big].
+\end{align*}
+%
+
+Thus,
+\begin{align}
+	K'' = \frac{1}{\sqrt{2\pi/A}}\exp\left(\frac{C-B^2/4A}{2}\right),
+\end{align}
+%
+
+and
+\begin{align}
+	K' = \frac{1}{\sqrt{2\pi/A}}\exp\left[\frac{C-B^2/4A}{2} -
+	\log\left(\frac{1}{(2\pi)|J^{-1}|^{-\frac{1}{2}}}\right)
+	\int b_2^{t}(x_2)dx_2\right].
+\end{align}
+%
+
+Similarly, the expression for the $b_2^{t+1}(x_2)$ update is analogous
+to~\eqref{eq:53a1} with factor $b_1^t$ switched in to the expression. 
+\\
+
+\noindent
+(b)
+
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
