@@ -192,7 +192,8 @@ $(i, j)$ in the image. Figure~\ref{f:52a} sketches the undirected graphs.
 
 The potential function $\psi(x_i, y_i)$ is given by
 \begin{align*}
-	\psi(x_i, y_i) = \frac{1}{(2\pi)^{3/2}(\det {\bf\Lambda}_{x_i})^{1/2}}
+	\psi(x_i, y_i) = p_{\s{y}_i|\s{x}_i}(y_i|x_i)
+	= \frac{1}{(2\pi)^{3/2}(\det {\bf\Lambda}_{x_i})^{1/2}}
 	\exp\left[-\frac{1}{2}(y_i-\mu_{x_i})^T\mathbf{\Lambda}^{-1}_{x_i}(y_i - \mu_{x_i})\right] + \epsilon.
 \end{align*}
 \\
@@ -932,9 +933,9 @@ Since the message from leaves $\s{x}_5$ carries over all the way to $\s{x}_2$, w
 After normalization,
 \begin{align}
 	p^{t=3}_{\s{x}_2}(x_2=0) = 
-		\frac{\gamma^3(1 - \gamma)}{\gamma^3(1 - \gamma) + (1 - \gamma)^3\gamma},\\
+		\frac{\gamma^2}{\gamma^2+ (1 - \gamma)^2},\\
 	p^{t=3}_{\s{x}_2}(x_2=1) =
-		\frac{(1 - \gamma)^3\gamma}{{\gamma^3(1 - \gamma) + (1 - \gamma)^3\gamma}}.
+		\frac{(1 - \gamma)^2}{{\gamma^2 + (1 - \gamma)^2}}.
 \end{align}
 
 \noindent
@@ -964,9 +965,9 @@ we have
 After normalization,
 \begin{align}
 	p^{t=4}_{\s{x}_2}(x_2=0) = 
-		\frac{\gamma^3(1 - \gamma)^5}{\gamma^3(1 - \gamma)^5 + (1 - \gamma)^3\gamma^5},\\
+		\frac{(1 - \gamma)^2}{(1 - \gamma)^2 + \gamma^2},\\
 	p^{t=4}_{\s{x}_2}(x_2=1) =
-		\frac{(1 - \gamma)^3\gamma^5}{{\gamma^3(1 - \gamma)^5 + (1 - \gamma)^3\gamma^5}}.
+		\frac{\gamma^2}{{(1 - \gamma)^2 + \gamma^2}}.
 \end{align}
 \\
 
