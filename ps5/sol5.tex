@@ -737,7 +737,7 @@ def compute_mean_var(image, ground):
 
     for i in range(image.shape[0]):
         for j in range(image.shape[1]):
-            if ground[i, j] == 1:
+            if ground[i, j] > 0:
                 sum_val += image[i, j]
                 num_pixels += 1
 
@@ -749,8 +749,8 @@ def compute_mean_var(image, ground):
 
     for i in range(image.shape[0]):
         for j in range(image.shape[1]):
-            if ground[i, j] == 1:
-                val = image[i, j].reshape(-1, 1)
+            if ground[i, j] > 0:
+                val = (image[i, j] - mean).reshape(-1, 1)
                 sum_val += val.dot(val.T)
 
     if num_pixels > 0:

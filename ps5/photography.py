@@ -35,8 +35,14 @@ def main():
     mean_foreground, var_foreground = \
         compute_mean_var(image, foreground)
 
+    print('foreground mean', mean_foreground, '\n')
+    print('foreground cov', var_foreground, '\n')
+
     mean_background, var_background = \
         compute_mean_var(image, background)
+
+    print('background mean', mean_background, '\n')
+    print('background cov', var_background, '\n')
 
     mean_foreground = mean_foreground.reshape(-1, 1)
     mean_background = mean_background.reshape(-1, 1)
