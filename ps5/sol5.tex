@@ -277,7 +277,7 @@ those grey dots by foreground belief in white.
 
 The loopy BP first converges the clear values---red flowers in the foreground, with mean 
 close to the empirical foreground mean, and the object clusters close each other; green 
-grass in the background for similar reasons. There are an green ``island'' in the left
+grass in the background for similar reasons. There is an green ``island'' in the left
 flower that is difficult to converge to the foreground. The reason is that it has a
 significant size of green inside the flower red, which self-reinforce its background
 position inside the foreground region.
@@ -772,7 +772,7 @@ of the distribution of $b_2^t(x_2)$ (since it is integrated out; and the Gaussia
 To determine the normalization constant $K'$, we let
 \begin{align*}
 	x_1' &= x_1 - \mu_1 \\
-	A &= J_{11}\int b_2^t(x_2)dx_2 \\
+	A &= J_{11}\int b_2^t(x_2)dx_2 = J_{11}\\
 	B &= 2J_{12}\int b^t_2(x_2)(x_2-\mu_2)dx_2\\
 	C & = J_{22}\int b^t_2(x_2)(x_2-\mu_2)^2dx_2,
 \end{align*}
@@ -809,7 +809,35 @@ to~\eqref{eq:53a1} with factor $b_1^t$ switched in to the expression.
 
 \noindent
 (b)
+%
+Now we need to check if the update equation yields a fixed point when setting
+the variational mean of $b_i(x_i)$ to be the true mean $\mu_i$, for $i \in \{1, 2\}$.
+%
+That is, we set
+\begin{align}
+\int b_i(x_i) x_i = \mu_i,
+\end{align}
+%
+for $i \in \{1, 2\}$.
+%
 
+Then we note that Equation~\eqref{eq:53a1} immediately has the $B$ term dropped out. Since $x_1' = x_1 - \mu_1$, we know the $b_1^{t+1}(x_1)$ in the update equation yields
+\begin{align}
+	b_1^{t+1}(x_1) \propto \exp\left[-\frac{1}{2}J_{11} (x_1 - \mu_1)^2\right].
+\end{align}
+%
+
+This Gaussian form has mean $\mu_1$, which is also the true mean we set up to achieve for the update equation.
+%
+Similarly, by symmetric, we know the update equation for $b_2$ results in the true mean as well.
+%
+
+This makes intuitive sense, because mean-field approximation artificially forces the Gaussian distribution
+to be the product to be two Gaussians (they are Gaussian because of (a)). Now if we set the two Gaussian to
+center on the marginal mean in the beginning, they will match the true joint distribution maximally in terms
+of the mean location. Updating from this point will only change the width of the Gaussians but not the central
+location. Thus when setting the variational mean to be the true mean will yield a fixed point for the mean of
+the individual Gaussian.
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
