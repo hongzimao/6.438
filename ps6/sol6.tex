@@ -1,0 +1,161 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{bbm}
+\usepackage{dsfont}
+\usepackage{listings}
+
+% set up margin
+\usepackage
+[
+  a4paper,
+  left=3cm,
+  right=3cm,
+  top=3cm,
+  bottom=3cm,
+]
+{geometry}
+
+% set up header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{6.438 Algorithms for Inference}
+\chead{Problem Set 6}
+\rhead{Hongzi Mao}
+\cfoot{\thepage}
+\rfoot{\footnotesize{\emph{Collaborated with: Hongzhou Ye, Zhiwei Ding}}}
+
+% footer line
+\renewcommand{\footrulewidth}{0.4pt}
+
+% sans serif italic
+\newcommand{\s}[1]{\textsf{\textit{#1}}}
+
+% bold face sans serif
+\newcommand{\bs}[1]{\textsf{\textbf{#1}}}
+
+% set symbol
+\usepackage[mathscr]{euscript}
+
+% empty set
+\let\emptyset\varnothing
+
+% qed
+\newcommand{\qeds}{\hfill\qedsymbol}
+
+% math bold face
+\newcommand{\bm}{\mathbf}
+
+% argmax
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+% colorful reference
+\usepackage{hyperref}
+\usepackage{color}
+\definecolor{darkred}{rgb}{0.7,0,0}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\hypersetup{colorlinks=true,
+        linkcolor=darkred,
+        citecolor=darkgreen}
+\urlstyle{same}
+
+% independence symbol
+\makeatletter
+\newcommand*{\indep}{%
+  \mathbin{%
+    \mathpalette{\@indep}{}%
+  }%
+}
+\newcommand*{\nindep}{%
+  \mathbin{%                   % The final symbol is a binary math operator
+    \mathpalette{\@indep}{\not}% \mathpalette helps for the adaptation
+                               % of the symbol to the different math styles.
+  }%
+}
+\newcommand*{\@indep}[2]{%
+  \sbox0{$#1\perp\m@th$}%        box 0 contains \perp symbol
+  \sbox2{$#1=$}%                 box 2 for the height of =
+  \sbox4{$#1\vcenter{}$}%        box 4 for the height of the math axis
+  \rlap{\copy0}%                 first \perp
+  \dimen@=\dimexpr\ht2-\ht4-.2pt\relax
+  \kern\dimen@
+  {#2}
+  \kern\dimen@
+  \copy0 %                       second \perp
+} 
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin document here %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\section*{Problem 6.1}
+%
+(a) $\s{x}[n]$ is a Markov process. This is because $\s{x}[n]$ at each step
+$n$ only depends on the random variable $\s{a}, \omega, \phi$ within
+this step locally. This trivially leads to the Markov property that $\s{x}[n]$
+is independent of $\s{x}[0], \s{x}[1], \cdots, \s{x}[n-2]$ condition on $\s{x}[n-1]$.
+\\
+
+\noindent
+(b) $\s{x}_1[2n]$ is a Markov process. To show Markov property, we need to show
+$p(x_1[2n] \,\big|\, x_1[2n - 2]) = p(x_1[2n] \,\big|\, x_1[2n - 2], x_1[2n -4], \cdots)$. We note that
+\begin{align*}
+p(x_1[2n] \,\big|\, x_1[2n - 2])	 &=
+\sum_{x_1[2n - 1]} p(x_1[2n], x_1[2n-1] \,\big|\, x_1[2n - 2])\\
+&= \sum_{x_1[2n - 1]} p(x_1[2n] \,\big|\, x_1[2n-1], x_1[2n-2])
+p(x_1[2n-1] \,\big|\, x_1[2n-2])\\
+&= \sum_{x_1[2n - 1]} p(x_1[2n] \,\big|\, x_1[2n-1], x_1[2n-2], \cdots)
+p(x_1[2n-1] \,\big|\, x_1[2n-2], \cdots)\\
+&\;\;\;\;\text{(since $\s{x}_1[0], \s{x}_1[1], \cdots, \s{x}_1[2n-1], \s{x}_1[2n]$ is a Markov process)}\\
+&= \sum_{x_1[2n - 1]} p(x_1[2n] \,\big|\, x_1[2n-1], x_1[2n-2], x_1[2n-4], x_1[2n-6], \cdots)\\
+&\;\;\;\; \times p(x_1[2n-1] \,\big|\, x_1[2n-2], x_1[2n-4], x_1[2n-6], \cdots)\\
+&= \sum_{x_1[2n - 1]} p(x_1[2n], x_1[2n-1] \,\big|\, x_1[2n-2], x_1[2n-4], x_1[2n-6], \cdots)\\
+& = p(x_1[2n] \,\big|\, x_1[2n-2], x_1[2n-4], x_1[2n-6], \cdots)
+\end{align*} \qeds
+
+$\s{y}[n]$ is not a Markov process. This is because $\s{y}[2n]$ is a function of
+$\s{y}[2n-2]$ by construction from $\s{x}_1$. Since $\s{y}[2n]$ is independent of
+$\s{y}[2n-1]$, $\s{y}[2n]$ would not be conditional independent of $\s{y}[2n-2]$ on
+$\s{y}[2n-1]$. As a concrete example, let the initial state
+$\s{x}[0] \sim \text{Bern}(1/2)$,
+$\s{y}[0] \sim \text{Bern}(1/2)$ and the Markov process be
+$\s{x}[0] = \s{x}[1] = \cdots = \s{x}[n]$, 
+$\s{y}[0] = \s{y}[1] = \cdots = \s{y}[n]$. Then
+\begin{align*}
+	p(y[2n] \,\big|\, y[2n - 1]) = \frac{1}{2}
+	\neq \mathds{1}_{y[2n] = y[2n - 2]} = p(y[2n] \,\big|\, y[2n - 1], y[2n - 2]).
+\end{align*} \qeds
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section*{Problem 6.2}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
