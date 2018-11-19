@@ -46,6 +46,7 @@ def main():
     plt.legend(['Initialized at 1', 'Initialized at -1'], frameon=False, loc='center left', bbox_to_anchor=(1, 0.5))
     plt.tight_layout()
     plt.savefig('gibbs_node_sampler_mixing_longer.pdf')
+    plt.savefig('gibbs_node_sampler_mixing_longer.png')
     plt.close(fig)
 
 
