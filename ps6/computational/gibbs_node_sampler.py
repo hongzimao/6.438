@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 from utils import visualize, plot_mixing
 
@@ -34,14 +35,25 @@ def sample(size, nodes, node_neighbors, edge_potential, node=None):
 
 def main():
     # parameters
-    seed = 42
-    size = 60
-    theta = 0.45
-    initial_value = 1
-    iterations = 1001
-    output_interval = 100
-    results_folder = './results/'
-    file_prefix = 'gibbs_node_sampler'
+    parser = argparse.ArgumentParser(description='parameters')
+    parser.add_argument('--seed', type=int, default=42)
+    parser.add_argument('--size', type=int, default=60)
+    parser.add_argument('--theta', type=float, default=0.45)
+    parser.add_argument('--initial_value', type=float, default=1)
+    parser.add_argument('--iterations', type=int, default=1001)
+    parser.add_argument('--output_interval', type=int, default=100)
+    parser.add_argument('--results_folder', type=str, default='./results/')
+    parser.add_argument('--file_prefix', type=str, default='gibbs_node_sampler')
+    config = parser.parse_args()
+    # assign parameters
+    seed = config.seed
+    size = config.size
+    theta = config.theta
+    initial_value = config.initial_value
+    iterations = config.iterations
+    output_interval = config.output_interval
+    results_folder = config.results_folder
+    file_prefix = config.file_prefix
 
     # random seed
     np.random.seed(seed)
@@ -80,6 +92,7 @@ def main():
 
     # gibbs node-by-node sampling
     mean_vals = []
+    mean_vals.append(np.mean(list(nodes.values())))
     for iteration in range(iterations):
         # sweep through all i and j
         for i in range(size):
