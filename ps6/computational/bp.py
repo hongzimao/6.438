@@ -7,7 +7,8 @@ def ep(edge_potential, i, j, var_i, var_j):
     elif (j, i) in edge_potential:
         return edge_potential[(j, i)][var_j, var_i]
     else:
-        return None
+        print('Error: potential missing')
+        exit(1)
 
 
 def get_msg(i, j, node_potential, edge_potential, messages, neighbors, normalize=True):
@@ -54,19 +55,19 @@ def belief_propagation(node_potential, edge_potential, traversal_order):
         messages[(i, j)] = init_msg
         messages[(j, i)] = init_msg
 
-    diam = min(diameter, len(node_potential))
-
     # traverse following the order
-    for (i, j) in traversal_order:
-        new_messages = {}
-        msg = get_msg(
-            i, j,
-            node_potential,
-            edge_potential,
-            messages,
-            neighbors)
-        new_messages[(i, j)] = msg
-        assert len(new_messages) == len(messages)
-        messages = new_messages
+    last_node = None
+    for n in traversal_order:
+        if last_node is not None and \
+           (last_node, n) in edge_potential:
+            msg = get_msg(
+                last_node, n,
+                node_potential,
+                edge_potential,
+                messages,
+                neighbors)
+            messages[(last_node, n)] = msg
+        # advance a node
+        last_node = n
 
     return messages

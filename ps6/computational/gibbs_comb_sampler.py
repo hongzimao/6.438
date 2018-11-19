@@ -1,6 +1,6 @@
 import numpy as np
 from collections import OrderedDict
-from utils import visualize
+from utils import visualize, OrderedSet
 from bp import belief_propagation
 
 
@@ -14,17 +14,22 @@ def sample(nodes, node_neighbors, edge_potential, traversal_order):
     node_potentials = {}
     tree_edge_potentials = {}
 
-    last_node = None
+    last_node = set()
     for (i, j) in traversal_order:
         node_potentials[(i, j)] = {-1: 1, 1: 1}
         for n in node_neighbors[(i, j)]:
             # set up node potential based on observation on the other comb
-            node_potentials[(i, j)][-1] *= edge_potential[-1, nodes[n]]
-            node_potentials[(i, j)][1] *= edge_potential[1, nodes[n]]
+            # those nodes shouldn't be on the traversal path
+            if n not in traversal_order:
+                node_potentials[(i, j)][-1] *= edge_potential[-1, nodes[n]]
+                node_potentials[(i, j)][1] *= edge_potential[1, nodes[n]]
         # set up edge potential along the tree path
-        if last_node is not None:
-            tree_edge_potentials[(last_node, (i, j))] = edge_potential
-        last_node = (i, j)
+        assert len(last_node) <= 2
+        for n in list(last_node):
+            if n in node_neighbors[(i, j)]:
+                tree_edge_potentials[(n, (i, j))] = edge_potential
+                last_node.remove(n)
+        last_node.add((i, j))
 
     # get message from one pass of belief propagation
     messages = belief_propagation(
@@ -32,18 +37,19 @@ def sample(nodes, node_neighbors, edge_potential, traversal_order):
 
     # reverse the traversal order, perform sampling
     samples = OrderedDict()  # need O(1) query and insertion order
-    for (i, j) in reverse(traversal_order):
+    for (i, j) in reversed(traversal_order):
         ep_positive = 1
         ep_negative = 1
         for n in node_neighbors[(i, j)]:
-            if n in samples:
-                # already sampled
-                ep_positive *= edge_potential[1, samples[n]]
-                ep_negative *= edge_potential[-1, samples[n]]
-            else:
-                # need to use message
-                ep_positive *= messages[(n, (i, j))][1]
-                ep_negative *= messages[(n, (i, j))][-1]
+            if n in traversal_order:
+                if n in samples:
+                    # already sampled
+                    ep_positive *= edge_potential[1, samples[n]]
+                    ep_negative *= edge_potential[-1, samples[n]]
+                else:
+                    # need to use message
+                    ep_positive *= messages[(n, (i, j))][1]
+                    ep_negative *= messages[(n, (i, j))][-1]
 
         # sample
         p = np.random.rand()
@@ -102,22 +108,22 @@ def main():
     edge_potential[(-1, -1)] = np.exp(theta)
 
     # find traversal order for block A
-    traversal_order_a = []
+    traversal_order_a = OrderedSet()
     for j in range(size):
         if j % 2 == 0:
-            for i in range(size - 2, -1, 1):
-                traversal_order_a.append((i, j))
+            for i in range(size - 2, -1, -1):
+                traversal_order_a.add((i, j))
         else:
-            traversal_order_a.append((0, j))
+            traversal_order_a.add((0, j))
 
     # find traversal order for block B
-    traversal_order_b = []
+    traversal_order_b = OrderedSet()
     for j in range(size):
         if j % 2 == 0:
-            traversal_order_b.append((size - 1, j))
+            traversal_order_b.add((size - 1, j))
         else:
-            for i in range(size - 1, 0, 1):
-                traversal_order_b.append((i, j))
+            for i in range(1, size, 1):
+                traversal_order_b.add((i, j))
 
     # gibbs block sampling
     for iteration in range(iterations):
