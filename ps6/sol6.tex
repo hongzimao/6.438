@@ -142,20 +142,173 @@ $\s{y}[0] = \s{y}[1] = \cdots = \s{y}[n]$. Then
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section*{Problem 6.2}
+(a) First we compute
+$p_{\s{x}_i | \s{x}_{\mathscr{V}\backslash i}}(\,\cdot \,| x_{\mathscr{V}\backslash \{i\}})$,
+%
+\begin{align*}
+	p_{\s{x}_i | \s{x}_{\mathscr{V}\backslash\{i\}}}(x_i| x_{\mathscr{V}\backslash \{i\}}) =
+	\frac{\exp\left\{\sum_{j \in \partial i}\theta x_i x_j\right\}}
+	{\exp\left\{\sum_{j \in \partial i}\theta x_j\right\} +
+	\exp\left\{\sum_{j \in \partial i} -\theta x_j\right\}}.
+\end{align*}
+Hence, for update step $t = 0, 1, \cdots$, the update rules for a node-by-node Gibbs sampler is
+\begin{enumerate}
+	\item Select $i \in \mathscr{V}$ from the graph $\mathscr{G}$ uniformly at random.
+	\item Set $x^{t+1}_{\mathscr{V}\backslash\{i\}} = x^t_{\mathscr{V}\backslash\{i\}}$
+	unchanged for all nodes other than $i$; and sample $x^{t+1}_i$ following the
+	distribution $p_{\s{x}_i | \s{x}_{\mathscr{V}\backslash \{i\}}}
+	(\,\cdot \,| x^t_{\mathscr{V}\backslash \{i\}})$ derived above.\\
+\end{enumerate}
 
+\noindent
+(b) To generate $\bs{y} = (\s{y}_1, \s{y}_2, \cdots, \s{y}_n)$, we note that
+\begin{align*}
+	p(y_1, y_2, \cdots, y_n) = p(y_1)\, p (y_2 | y_1)\, p(y_3 | y_1, y_2) \cdots p(y_n | y_1, y_2, \cdots, y_{n-1}).
+\end{align*}
+%
+\begin{figure}[h!]
+  \centering
+  \vspace{-0.3cm}
+  \includegraphics[width=0.2\columnwidth]{62b.pdf}
+    \vspace{-0.1cm}
+  \caption{Tree structured graph for problem 6.2(b).}
+  \label{f:62b}
+\end{figure}
+%
 
+Importantly, with a tree structure shown in Figure~\ref{f:62b}, the conditional
+distribution can be determined by the samples of
+$\s{y}_{i-1}, \s{y}_{i-2}, \cdots, \s{y}_{0}$, and the message passed from $\s{y}_{i+1}$
+in belief propagation. Specifically\footnote{In general, we need messages from all the parent node of $i$ in the tree.},
+%
+\begin{align*}
+	p(y_i \,\big|\, y_{i-1}, y_{i-2}, \cdots) &= \frac{p(y_i, y_{i-1}, y_{i-2}, \cdots)}{p(y_{i-1}, y_{i-2}, \cdots)}\\
+	&=\frac{\sum_{y_{i+1}, y_{i+2}, \cdots} \prod_{k, l \in \mathscr{E}} \phi_{kl}(y_k, y_l)}{\sum_{y_{i+1}, y_{i+2}, \cdots}\sum_{y_{i}}\prod_{k, l \in \mathscr{E}}\phi_{kl}(y_k, y_l)} \\ 
+	&= \frac{m_{i+1\to i}(y_i) \phi_{i-1, i}(y_{i-1}, y_i)\phi_{i-2, i}(y_{i-2}, y_i)}{\sum_{y_{i}}m_{i+1\to i}(y_i) \phi_{i-1, i}(y_{i-1}, y_i)\phi_{i-2, i}(y_{i-2}, y_i)}.
+\end{align*}
+%
 
+In general, the conditional distribution for a node can be expressed as
+\begin{align}
+	p(y_i \,\big|\, y_{i-1}, y_{i-2}, \cdots) = \frac{\prod_{k \in \text{parent}(i)}m_{k\to i}(y_i)\prod_{j \in \text{children}(i)}\phi_{ij}(y_i, y_j)}{\sum_{y_{i}}\prod_{k \in \text{parent}(i)}m_{k\to i}(y_i)\prod_{j \in \text{children}(i)}\phi_{ij}(y_i, y_j)} \label{eq:62_conditional_dist}
+\end{align}
 
+Thus, we can label the nodes in the tree and sample the variables in a sequence.
+%
+Operationally, the efficient procedure is
+\begin{enumerate}
+	\item Pick a leaf node and label it as $\s{y}_1$. Set the current node index $i=1$.
+	\item Run the message passing scheme\footnote{In the question, we select a root node
+		  first and only aggregates the message up to that node
+		  (instead of passing messages back from the root for every node).
+		  For the remaining, we
+		  only need the computed message to perform ``belief propagation'' for sampling.
+		  Overall, each node is visited no more than twice. Hence it is still valid to say 		  ``by running belief propagation once''.}
+		  to obtain the marginal distribution of $p_{\s{y}_1}(y_1)$.
+	\item Sample $y_1 \sim p_{\s{y}_1}(y_1)$.
+	\item For any node with all its children node labeled, label it as $\s{y}_{i+1}$.
+	\item Sample $y_{i+1} \sim p(y_{i+1} \,\big|\, y_i, y_{i-1}, \cdots )$ using
+		  Equation~\eqref{eq:62_conditional_dist}. Notice that at this step, the values of
+		  $\s{y}_{\text{children}(i)}$ are sampled in previous steps and the messages
+		  $m_{\text{parent}(i)\to i}$ are available from the belief propagation in step 2.
+		  Set current node index as $i + 1$.
+	\item Repeat step 4 and 5 until an instance of $\bs{y} = (\s{y}_1, \s{y}_2, \cdots, 		  \s{y}_n)$ is sampled.\\
+\end{enumerate}
+%
 
+\noindent
+(c) Without loss of generality, to sample $p_{\s{x}_A | \s{x}_B}$, we need to first
+update the node potential (can then be absorbed in the edge potential) of
+$\s{x}_A$ based on the sampled values in $\s{x}_B$. Specifically, the node potential
+of a node $i$ in $\s{x}_A$ becomes
+\begin{align*}
+	\exp\left\{{\sum_{j \in \partial i \cap B} \theta}x_ix_j\right\}.
+\end{align*}
 
+Then we use the the sampler developed in part (b) to sample the value in the
+tree structure, with the edge potential updated by the first step.
 
+We repeat the above process and alternate between $A$ and $B$ to perform
+block Gibbs sampling.
+\pagebreak
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section*{Problem 6.4}
+(a) Since every matching has the same probability (i.e., $w_{ij} = 0$), we can repeat
+the following process until a matching is formed
+\begin{enumerate}
+	\item randomly pick a node $i$ from $v$;
+	\item randomly pick a node $j$ from $u$, which establishes $\sigma_{ij}=1$;
+	\item remove $i$ from $v$ and remove $j$ from $u$.\\
+\end{enumerate}
 
+\noindent
+(b) We note that
+\begin{align}
+	Z &= \sum_{\sigma\in\text{ perfect matchings}} \exp\left(\sum_{i,j}w_{ij}\sigma_{ij}\right)\\
+	&\leq \sum_{\sigma\in\text{ perfect matchings}} \exp\left(Nw^*\right) \label{eq:64b_1}\\
+	&\leq N!\exp\left(Nw^*\right) \label{eq:64b_2}.
+\end{align}
 
+Here, \eqref{eq:64b_1} is because for perfect matching,
+$\sum_{k=1}^N \sigma_{ik} = 1$, for all $1\leq i \leq N$; and
+$\sum_{k=1}^N \sigma_{kj} = 1$, for all $1\leq j \leq N$.
+Inequality \eqref{eq:64b_2} is because there are $N!$ possible
+distinct perfect matchings. This is because for the first node in $v$,
+there is $N$ possible destination node to match in $u$;
+after the first node occupies a node in $u$, the second node in $v$ has $N-1$ nodes
+left in $u$;
+the third node in $v$ then has $N-2$ nodes in $u$ and so on.
 
+Then we have for any perfect matching $\sigma$
+\begin{align}
+	p(\sigma) &= \frac{\exp\left(\sum_{i,j}w_{ij}\sigma_{ij}\right)\mathds{1}_{\sigma \text{ is perfect matching}}}{Z}\\
+	& \geq \frac{1}{Z} \label{eq:64b_3}\\
+	& \geq \frac{1}{N!\exp\left(Nw^*\right)}, \label{eq:64b_4}
+\end{align}
+where \eqref{eq:64b_3} is because $w_{ij} \geq 0$, $\sigma_{ij} \geq 0$, $\mathds{1}_{\sigma \text{ is perfect matching}} = 1$; and \eqref{eq:64b_4} is because of \eqref{eq:64b_2}. \qeds
+\\
 
+\noindent
+(c) For the defined Markov chain, we can explicitly write out the probability of valid
+transition $\sigma \to \sigma'$
+\begin{align}
+	\bm{P}_{\sigma \sigma'} &= \frac{1}{N^2}\min(1, \exp(w_{i\sigma(j)} + w_{j\sigma(i)} - w_{i\sigma(i)} - w_{j\sigma(j)}))\label{eq:64b_5}\\
+	&\geq \frac{1}{N^2}\exp(-2w^*). \label{eq:64b_6}
+\end{align}
+where \eqref{eq:64b_5} is because we choose $i, j \in \{1, 2, \cdots, N\}$ randomly; and 
+\eqref{eq:64b_6} is because $w_{ij} \geq 0$ and $-w_{ij} \geq -w^*$. \qeds
+\\
 
+\noindent
+(d) Using the results from (b) and (c), we immediately have
+\begin{align*}
+	p(\sigma)\bm{P}_{\sigma\sigma'} \geq \frac{1}{N!\exp\left(Nw^*\right)}\frac{1}{N^2}\exp(-2w^*),
+\end{align*}
+for all valid $\sigma, \sigma'$.
 
+Now notice that in the nominator of $\Phi$, we have
+\begin{align*}
+	\sum_{\sigma\in S, \sigma'\in S'} p(\sigma)\bm{P}_{\sigma\sigma'} \geq \min_{\sigma, \sigma'}\bigg[ p(\sigma)\bm{P}_{\sigma\sigma'}\bigg] \geq \frac{1}{N!\exp\left(Nw^*\right)}\frac{1}{N^2}\exp(-2w^*).
+\end{align*}
+
+And in the denominator of $\Phi$, we have
+\begin{align*}
+p(S)p(S') \leq 1 \times 1 = 1,
+\end{align*} for all valid $S, S'$.
+
+Thus, we have
+\begin{align*}
+	\Phi \geq \frac{1}{N!\exp\left(Nw^*\right)}\frac{1}{N^2}\exp(-2w^*).
+\end{align*}\qeds
+\\
+
+\noindent
+(e) Using the results from (b) and (d), we have
+\begin{align*}
+	T_{mix}(\epsilon) &\leq \frac{1}{\Phi^2}\left(\log\frac{1}{\min_\sigma p (\sigma)} + \log\frac{1}{\epsilon}\right)\\
+	&\leq \frac{(N!)^2 N^4 \exp(2Nw^*)}{\exp(-2w^*)}\left(\log\big[N!\exp(N w^*)\big] + \log\frac{1}{\epsilon}\right).
+\end{align*}
 
 
 \end{document}
