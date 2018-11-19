@@ -1,6 +1,16 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy import misc
 from collections import OrderedDict
+
+
+def plot_mixing(mean_vals, file_name):
+    plt.plot(mean_vals)
+    plt.xlabel('Step')
+    plt.ylabel('Average value of all nodes')
+    plt.tight_layout()
+    plt.savefig(file_name + '.pdf')
+    np.save(file_name + '.npy', mean_vals)
 
 
 def visualize(size, nodes, file_name):

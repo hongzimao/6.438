@@ -1,6 +1,6 @@
 import numpy as np
 from collections import OrderedDict
-from utils import visualize, OrderedSet
+from utils import OrderedSet, visualize, plot_mixing
 from bp import belief_propagation
 
 
@@ -71,7 +71,7 @@ def main():
     iterations = 1001
     output_interval = 100
     results_folder = './results/'
-    file_prefix = 'gibbs_comb_sampler_iter_'
+    file_prefix = 'gibbs_comb_sampler'
 
     # random seed
     np.random.seed(seed)
@@ -126,6 +126,7 @@ def main():
                 traversal_order_b.add((i, j))
 
     # gibbs block sampling
+    mean_vals = []
     for iteration in range(iterations):
         # sweep through bloack A and B
         for traversal_order in [traversal_order_a, traversal_order_b]:
@@ -133,11 +134,17 @@ def main():
             for n in samples:
                 nodes[n] = samples[n]
 
+        # record the mean values
+        mean_vals.append(np.mean(list(nodes.values())))
+
         if iteration % output_interval == 0:
             # visualization
             visualize(size, nodes, results_folder + 
-                file_prefix + str(iteration) + '.png')
+                file_prefix + '_iter_' + str(iteration) + '.png')
             print('iteration ', iteration)
+
+    # plot mixing behavoir
+    plot_mixing(mean_vals, results_folder + file_prefix + '_mixing')
 
 
 if __name__ == '__main__':

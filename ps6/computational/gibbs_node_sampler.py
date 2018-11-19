@@ -1,5 +1,5 @@
 import numpy as np
-from utils import visualize
+from utils import visualize, plot_mixing
 
 
 def sample(size, nodes, node_neighbors, edge_potential, node=None):
@@ -41,7 +41,7 @@ def main():
     iterations = 1001
     output_interval = 100
     results_folder = './results/'
-    file_prefix = 'gibbs_node_sampler_iter_'
+    file_prefix = 'gibbs_node_sampler'
 
     # random seed
     np.random.seed(seed)
@@ -79,17 +79,24 @@ def main():
 
 
     # gibbs node-by-node sampling
+    mean_vals = []
     for iteration in range(iterations):
         # sweep through all i and j
         for i in range(size):
             for j in range(size):
                 sample(size, nodes, node_neighbors, edge_potential, (i, j))
 
+        # record the mean values
+        mean_vals.append(np.mean(list(nodes.values())))
+
         if iteration % output_interval == 0:
             # visualization
             visualize(size, nodes, results_folder + 
-                file_prefix + str(iteration) + '.png')
+                file_prefix + '_iter_' + str(iteration) + '.png')
             print('iteration ', iteration)
+
+    # plot mixing behavoir
+    plot_mixing(mean_vals, results_folder + file_prefix + '_mixing')
 
 
 if __name__ == '__main__':
