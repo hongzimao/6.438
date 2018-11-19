@@ -103,11 +103,24 @@
 
 \section*{Problem 6.1}
 %
-(a) $\s{x}[n]$ is a Markov process. This is because $\s{x}[n]$ at each step
-$n$ only depends on the random variable $\s{a}, \omega, \phi$ within
-this step locally. This trivially leads to the Markov property that $\s{x}[n]$
-is independent of $\s{x}[0], \s{x}[1], \cdots, \s{x}[n-2]$ condition on $\s{x}[n-1]$.
+(a) $\s{x}[n]$ is not a Markov process. This is because the observation $x[n]$ and underlying
+sequence $n$ and $a, \omega, \phi$ form a Hidden Markov Model shown in Figure~\ref{f:61a}.
+%
+Then we know the sequence of observations $x[n]$ does not form a Markov process. In the graphical
+model, condition on $x[n]$ does not cut the path from $x[n+1]$
+to previous $x[n-1], x[n-2], \cdots$.
+%
+Thus, observing $x[n-1], \cdots$ unveils more information about the underlying $n$ to infer
+$x[n+1]$. \qeds
 \\
+\begin{figure}[h!]
+  \centering
+  \vspace{-0.3cm}
+  \includegraphics[width=0.5\columnwidth]{61a.png}
+    \vspace{-0.1cm}
+  \caption{Graphical model of 6.1(a).}
+  \label{f:61a}
+\end{figure}
 
 \noindent
 (b) $\s{x}_1[2n]$ is a Markov process. To show Markov property, we need to show
@@ -307,7 +320,7 @@ Thus, we have
 (e) Using the results from (b) and (d), we have
 \begin{align*}
 	T_{mix}(\epsilon) &\leq \frac{1}{\Phi^2}\left(\log\frac{1}{\min_\sigma p (\sigma)} + \log\frac{1}{\epsilon}\right)\\
-	&\leq \frac{(N!)^2 N^4 \exp(2Nw^*)}{\exp(-2w^*)}\left(\log\big[N!\exp(N w^*)\big] + \log\frac{1}{\epsilon}\right).
+	&\leq \frac{(N!)^2 N^4 \exp(2Nw^*)}{\exp(-4w^*)}\left(\log\big[N!\exp(N w^*)\big] + \log\frac{1}{\epsilon}\right).
 \end{align*}
 
 
