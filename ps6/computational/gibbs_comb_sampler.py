@@ -39,8 +39,8 @@ def sample(nodes, node_neighbors, edge_potential, traversal_order):
     # reverse the traversal order, perform sampling
     samples = OrderedDict()  # need O(1) query and insertion order
     for (i, j) in reversed(traversal_order):
-        ep_positive = 1
-        ep_negative = 1
+        ep_positive = node_potentials[(i, j)][1]
+        ep_negative = node_potentials[(i, j)][-1]
         for n in node_neighbors[(i, j)]:
             if n in traversal_order:
                 if n in samples:

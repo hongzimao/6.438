@@ -103,8 +103,6 @@
 \section*{Problem 6.3}
 %
 \textbf{Key routines in the program.}
-\\
-
 %
 \noindent
 For Gibbs node-by-node sampler, the key routines are 
@@ -129,377 +127,351 @@ For Gibbs comb block sampler, the key routines are
 	      perform serial belief propagation to get all the messages on one direction.
 	      Start sampling from the marginals. Based on the sampled value and passed messages,
 	      sample the conditional probability using Equation~(2) from Problem 6.2(b). (Figure~\ref{f:code}g)
-	\item A loop through all nodes in each sampling iteration. (Figure~\ref{f:code}h)\\
+	\item A loop through all nodes in each sampling iteration. (Figure~\ref{f:code}h)
 \end{enumerate}
 
 \noindent
 \textbf{Visualization of the samples.}
-\\
-
 \noindent
-We run the Gibbs node-by-node sampler for 1000 iterations, initializing from all $+1$ or all $-1$ for the nodes.
-The samples are visualized every 100 steps. The samples from initialization $+1$ is in Figure~\ref{f:63a}.
-The samples from initialization $-1$ is in Figure~\ref{f:63b}.
-\\
-%
-
-\noindent
-Similarly, we run the Gibbs block sampler for 1000 iterations, also initializing from all $+1$ or all $-1$ for the nodes.
-The samples from initialization $+1$ is in Figure~\ref{f:63c}.
-The samples from initialization $-1$ is in Figure~\ref{f:63d}.
+We run the Gibbs node-by-node and the comb-shaped block sampler for 1000 iterations, initializing the nodes by
+all $+1$ or all $-1$. The samples are visualized in Figure~\ref{f:63a}.
 %
 \begin{figure*}[h]
 \captionsetup[subfigure]{labelformat=empty}
 \centering
-\begin{subfigure}[t]{0.18\textwidth}
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_0.png}
 \vspace{-0.6cm}
-\caption{iteration=1}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_100.png}
 \vspace{-0.6cm}
-\caption{iteration=100}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_200.png}
 \vspace{-0.6cm}
-\caption{iteration=200}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_300.png}
 \vspace{-0.6cm}
-\caption{iteration=300}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_400.png}
 \vspace{-0.6cm}
-\caption{iteration=400}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_500.png}
 \vspace{-0.6cm}
-\caption{iteration=500}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_600.png}
 \vspace{-0.6cm}
-\caption{iteration=600}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_700.png}
 \vspace{-0.6cm}
-\caption{iteration=700}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_800.png}
 \vspace{-0.6cm}
-\caption{iteration=800}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_positive_iter_900.png}
 \vspace{-0.6cm}
-\caption{iteration=900}
-\end{subfigure}\hspace{0.01\textwidth}
-\caption{Visualizing the node-by-node Gibbs sampling results. $+1$ is indicated by white in the image. The values are initialized as $+1$.}
-\label{f:63a}
-\end{figure*}
+\end{subfigure}\hspace{0.001\textwidth}
 %
-\begin{figure*}[h]
-\captionsetup[subfigure]{labelformat=empty}
-\centering
-\begin{subfigure}[t]{0.18\textwidth}
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_0.png}
 \vspace{-0.6cm}
-\caption{iteration=1}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_100.png}
 \vspace{-0.6cm}
-\caption{iteration=100}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_200.png}
 \vspace{-0.6cm}
-\caption{iteration=200}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_300.png}
 \vspace{-0.6cm}
-\caption{iteration=300}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_400.png}
 \vspace{-0.6cm}
-\caption{iteration=400}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_500.png}
 \vspace{-0.6cm}
-\caption{iteration=500}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_600.png}
 \vspace{-0.6cm}
-\caption{iteration=600}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_700.png}
 \vspace{-0.6cm}
-\caption{iteration=700}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_800.png}
 \vspace{-0.6cm}
-\caption{iteration=800}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_node_sampler_negative_iter_900.png}
 \vspace{-0.6cm}
-\caption{iteration=900}
-\end{subfigure}\hspace{0.01\textwidth}
-\caption{Visualizing the node-by-node Gibbs sampling results. $+1$ is indicated by white in the image. The values are initialized as $-1$.}
-\label{f:63b}
-\end{figure*}
+\end{subfigure}\hspace{0.001\textwidth}
 %
-\pagebreak
 %
-\begin{figure*}[h]
-\captionsetup[subfigure]{labelformat=empty}
-\centering
-\begin{subfigure}[t]{0.18\textwidth}
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_0.png}
 \vspace{-0.6cm}
-\caption{iteration=1}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_100.png}
 \vspace{-0.6cm}
-\caption{iteration=100}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_200.png}
 \vspace{-0.6cm}
-\caption{iteration=200}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_300.png}
 \vspace{-0.6cm}
-\caption{iteration=300}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_400.png}
 \vspace{-0.6cm}
-\caption{iteration=400}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_500.png}
 \vspace{-0.6cm}
-\caption{iteration=500}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_600.png}
 \vspace{-0.6cm}
-\caption{iteration=600}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_700.png}
 \vspace{-0.6cm}
-\caption{iteration=700}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_800.png}
 \vspace{-0.6cm}
-\caption{iteration=800}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_positive_iter_900.png}
 \vspace{-0.6cm}
-\caption{iteration=900}
-\end{subfigure}\hspace{0.01\textwidth}
-\caption{Visualizing the comb block Gibbs sampling results. $+1$ is indicated by white in the image. The values are initialized as $+1$.}
-\label{f:63c}
-\end{figure*}
+\end{subfigure}\hspace{0.001\textwidth}
 %
-\begin{figure*}[h]
-\captionsetup[subfigure]{labelformat=empty}
-\centering
-\begin{subfigure}[t]{0.18\textwidth}
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_0.png}
 \vspace{-0.6cm}
-\caption{iteration=1}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_100.png}
 \vspace{-0.6cm}
-\caption{iteration=100}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_200.png}
 \vspace{-0.6cm}
-\caption{iteration=200}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_300.png}
 \vspace{-0.6cm}
-\caption{iteration=300}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_400.png}
 \vspace{-0.6cm}
-\caption{iteration=400}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_500.png}
 \vspace{-0.6cm}
-\caption{iteration=500}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_600.png}
 \vspace{-0.6cm}
-\caption{iteration=600}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_700.png}
 \vspace{-0.6cm}
-\caption{iteration=700}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_800.png}
 \vspace{-0.6cm}
-\caption{iteration=800}
-\end{subfigure}\hspace{0.01\textwidth}
-\begin{subfigure}[t]{0.18\textwidth}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+%
+\begin{subfigure}[t]{0.09\textwidth}
 \centering
 \includegraphics[width=\textwidth]{./computational/results/gibbs_comb_sampler_negative_iter_900.png}
 \vspace{-0.6cm}
-\caption{iteration=900}
-\end{subfigure}\hspace{0.01\textwidth}
-\caption{Visualizing the comb block Gibbs sampling results. $+1$ is indicated by white in the image. The values are initialized as $-1$.}
-\label{f:63d}
+\end{subfigure}\hspace{0.001\textwidth}
+%
+\caption{Visualization of the Gibbs samples.
+         1st row: node-by-node samples, initialized with all $+1$.
+         2nd row: node-by-node samples, initialized with all $-1$.
+         3rd row: block samples, initialized with all $+1$.
+         4th row: block samples, initialized with all $-1$.
+         Each column corresponds to $\{1, 100, 200, \cdots, 900\}$ iterations.
+         The $+1$ region is denoted as white, $-1$ as black.}
+\label{f:63a}
 \end{figure*}
 %
-\\
 
 \noindent
 \textbf{Analysis.}
-\\
-
 \noindent
 By symmetry, there should not be a bias between $+1$ or $-1$ samples.
 %
 Thus, over a long time, the samples should give $+1$ or $-1$ with the same probability for all nodes.
 %
-Visually from the samples, the Gibbs block sampler mixes faster.
+However, since $\theta=0.45$ is relatively large, the values of the nodes tend to stick with each
+other; and the mixing time can be long.
 %
-We also plot a time series of average value of all nodes over the evolution steps in Figure~\ref{f:63e}.
+We plot the average value of all nodes over $20,000$ Markov process steps for both sampler in Figure~\ref{f:63}.
 %
-Clearly, Gibbs block sampler converges to the average value 0 much faster.
-%
-Running the node-by-node sampler for longer time (Figure~\ref{f:63f}) does yield unbiased samples.
-%
-But the time scale at least $50\times$ longer (notice the difference in the number of steps).
+From the figure, Gibbs block sampler oscillates between the $+1$ and $-1$ regions more often;
+and the mixing time should be empirically shorter. 
 %
 
 In terms of per-sweep running time, the complexity is both $O(n)$. Since the block sampling scheme has
 an extra step for message passing and updating the node potentials from the observation of the other block,
 the empirical runtime for the block sampler is slightly longer ($\sim 2\times$ longer in my implementation).
 
-The initialization affects the node-by-node sampler since the mixing behavior is not as fast as the block sampler.
+Also from figure~\ref{f:63}, different initializations affect which $+1/-1$ region to sample first the
+but don't empirically affect the mixing time.
 \\
 
 \begin{figure*}[h]
 \centering
-%
-\begin{subfigure}[t]{0.48\textwidth}
-\centering
-\includegraphics[width=\textwidth]{./computational/gibbs_node_sampler_mixing.pdf}
 \vspace{-0.6cm}
-\caption{Gibbs node-by-node sampler mixing behavior.}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.48\textwidth}
-\centering
-\includegraphics[width=\textwidth]{./computational/gibbs_block_sampler_mixing.pdf}
-\vspace{-0.6cm}
-\caption{Gibbs comb block sampler mixing behavior.}
-\end{subfigure}
-%
-\caption{Mixing behavior of Gibbs samplers.}
-\label{f:63e}
-\end{figure*}
-
-\begin{figure*}[h]
-\centering
-\includegraphics[width=0.8\textwidth]{./computational/gibbs_node_sampler_mixing_longer.png}
-\vspace{-0.6cm}
-\caption{Mixing behavior of Gibbs node-by-node samplers after running for a longer time.}
-\label{f:63f}
+\includegraphics[width=\textwidth]{./63.pdf}
+\vspace{-0.8cm}
+\caption{Mixing behavior of Gibbs samplers. Left: node-by-node sampler. Right: comb-shaped block sampler.}
+\label{f:63}
 \end{figure*}
 
 \noindent
 \textbf{Code snippets.}
 The code snippets are included in Figure~\ref{f:code}.
 %
-
 \begin{figure*}[h]
 \centering
-\captionsetup[subfigure]{labelformat=empty}
-\begin{subfigure}[t]{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{./computational/code_screenshots/code_1.pdf}
-\vspace{-0.6cm}
-\label{f:code_node}
-\caption{node-by-node.}
-\end{subfigure} \hspace{0.02\textwidth}
-%
-\begin{subfigure}[t]{0.65\textwidth}
-\centering
-\includegraphics[width=\textwidth]{./computational/code_screenshots/code_2.pdf}
-\vspace{-0.6cm}
-\label{f:code_block}
-\caption{Comb-shaped block.}
-\end{subfigure}
-%
+\vspace{-0.2cm}
+\includegraphics[width=0.98\textwidth]{./computational/code_screenshots/code.pdf}
+\vspace{-0.2cm}
 \caption{Code snippets for Gibbs sampler.}
 \label{f:code}
 \end{figure*}
