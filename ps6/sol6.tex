@@ -111,7 +111,12 @@ model, condition on $x[n]$ does not cut the path from $x[n+1]$
 to previous $x[n-1], x[n-2], \cdots$.
 %
 Thus, observing $x[n-1], \cdots$ unveils more information about the underlying $n$ to infer
-$x[n+1]$. \qeds
+$x[n+1]$.
+
+Another perhaps more direct argument is that if we have access to all previous observations 
+$x[n], x[n-1], x[n-2], \cdots$, we immediately know the value of $n+1$ (by counting). However,
+only knowing the value of $x[n]$ is not sufficient to infer the precise value of $n+1$.
+\qeds
 \\
 \begin{figure}[h!]
   \centering
