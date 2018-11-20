@@ -201,14 +201,15 @@ in belief propagation. Specifically\footnote{In general, we need messages from a
 %
 \begin{align*}
 	p(y_i \,\big|\, y_{i-1}, y_{i-2}, \cdots) &= \frac{p(y_i, y_{i-1}, y_{i-2}, \cdots)}{p(y_{i-1}, y_{i-2}, \cdots)}\\
-	&=\frac{\sum_{y_{i+1}, y_{i+2}, \cdots} \prod_{k, l \in \mathscr{E}} \phi_{kl}(y_k, y_l)}{\sum_{y_{i+1}, y_{i+2}, \cdots}\sum_{y_{i}}\prod_{k, l \in \mathscr{E}}\phi_{kl}(y_k, y_l)} \\ 
-	&= \frac{m_{i+1\to i}(y_i) \phi_{i-1, i}(y_{i-1}, y_i)\phi_{i-2, i}(y_{i-2}, y_i)}{\sum_{y_{i}}m_{i+1\to i}(y_i) \phi_{i-1, i}(y_{i-1}, y_i)\phi_{i-2, i}(y_{i-2}, y_i)}.
+	&=\frac{\sum_{y_{i+1}, y_{i+2}, \cdots} \prod_{k, l \in \mathscr{E}} \psi_{kl}(y_k, y_l)\prod_{j\in\mathscr{V}}\phi_j(y_j)}
+	{\sum_{y_{i+1}, y_{i+2}, \cdots}\sum_{y_{i}}\prod_{k, l \in \mathscr{E}}\psi_{kl}(y_k, y_l)\prod_{j\in\mathscr{V}}\phi_j(y_j)} \\ 
+	&= \frac{m_{i+1\to i}(y_i) \psi_{i-1, i}(y_{i-1}, y_i)\psi_{i-2, i}(y_{i-2}, y_i)\phi_i(y_i)}{\sum_{y_{i}}m_{i+1\to i}(y_i) \psi_{i-1, i}(y_{i-1}, y_i)\psi_{i-2, i}(y_{i-2}, y_i)\phi_i(y_i)}.
 \end{align*}
 %
 
 In general, the conditional distribution for a node can be expressed as
 \begin{align}
-	p(y_i \,\big|\, y_{i-1}, y_{i-2}, \cdots) = \frac{\prod_{k \in \text{parent}(i)}m_{k\to i}(y_i)\prod_{j \in \text{children}(i)}\phi_{ij}(y_i, y_j)}{\sum_{y_{i}}\prod_{k \in \text{parent}(i)}m_{k\to i}(y_i)\prod_{j \in \text{children}(i)}\phi_{ij}(y_i, y_j)} \label{eq:62_conditional_dist}
+	p(y_i \,\big|\, y_{i-1}, y_{i-2}, \cdots) = \frac{\prod_{k \in \text{parent}(i)}m_{k\to i}(y_i)\prod_{j \in \text{children}(i)}\psi_{ij}(y_i, y_j)\phi_i(y_i)}{\sum_{y_{i}}\prod_{k \in \text{parent}(i)}m_{k\to i}(y_i)\prod_{j \in \text{children}(i)}\psi_{ij}(y_i, y_j)\phi_i(y_i)} \label{eq:62_conditional_dist}
 \end{align}
 
 Thus, we can label the nodes in the tree and sample the variables in a sequence.
