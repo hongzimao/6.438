@@ -250,11 +250,12 @@ $X^t_{\partial A} = Y^t_{\partial A} = 0$.
 Now we define the coupling $(X^{t+1}, Y^{t+1})$ to be the following procedure.
 \begin{itemize}
 	\item Sample the same vertex $i \in \mathscr{G}$ uniformly at random. 
+	\item Then
 	\begin{itemize}
-		\item If the vertex $i$ is not one of the neighboring nodes of $A$
+		\item if the vertex $i$ is not one of the neighboring nodes of $A$
 (e.g., node A or C in Figure~\ref{f:72d}),
 we follow the same procedure in the problem description to stochastically flip the node.
-		\item Otherwise, the vertex $i$ is one of the neighboring nodes of $A$
+		\item otherwise, the vertex $i$ is one of the neighboring nodes of $A$
 (e.g., node B in Figure~\ref{f:72d}), we sample $U \sim \text{Unif}([0, 1])$,
 and if $U < \min(1, \lambda) / 2$, we update $X^{t+1}_B = 1$ and $Y^{t+1}_B = 0$;
 else $U \geq \min(1, \lambda) / 2$, we keep $X^{t+1}_B = Y^{t+1}_B = 0$.
@@ -298,7 +299,140 @@ This gives
 	\min(1, \lambda) &\leq \frac{2l}{k}.
 \end{align*}
 
-Thus the condition in (d) automatically satisfies this inequality. \qeds
+Thus, the condition in (d) automatically satisfies this inequality. \qeds
+\\
+\\
+
+We also notice that the same conclusion can be shown by the path coupling
+and the ``triangle inequality'' from the lecture. Specifically, we construct
+a path whose adjacent nodes has distance one, that is
+\begin{align*}
+	Z^t_0 := X^t, \; Z^t_1, \; Z^t_2, \; \cdots, \; Z^t_{\rho(X^t, Y^t)} := Y^t.
+\end{align*}
+
+We then let each of $Z^t_i$ evolve to $Z^{t+1}_i$, by the triangle inequality,
+we have
+\begin{align*}
+	\rho(X^{t+1}, Y^{t+1}) \leq \sum_{i=0}^{\rho(X^t, Y^t) - 1}\rho(Z^{t+1}_i, Z^{t+1}_{i+1}).
+\end{align*}
+
+Now, notice that by the path coupling construction, we have $\rho(Z^t_i, Z^t_{i+1}) = 1$, thus
+\begin{align*}
+	\mathbb{E}\big[\rho(X^{t+1}, Y^{t+1}) \big| X^t, Y^t\big]
+	&\leq
+	\sum_{i=0}^{\rho(X^t, Y^t) - 1} \mathbb{E}\big[\rho(Z^{t+1}_i, Z^{t+1}_{i+1}) \big| X^t, Y^t\big]\\
+	&\leq e^{-\alpha} \rho(X^t, Y^t) \quad \text{(from (d))}.
+\end{align*}\qeds
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section*{Problem 7.3}
+(a) $\s{X}$ and $\s{Y}$ are conditionally independent given $\s{Z}$. This is because $\s{Z}$ is not in the separation set of $\s{X}$ and $\s{Y}$. We can also see this from the probability factorization. From the graphical model we have
+\begin{align*}
+	p(X, Y, Z, A, D) = p(X)p(Y)p(A|X,Y)(p(D|Y)p(Z|Y,D).
+\end{align*}
+
+Now we marginalize out $X, Y, Z$, we have
+\begin{align*}
+	p(X, Y, Z) &= \sum_{A, D}p(X, Y, Z, A, D) \\ 
+	&= \sum_{A, D}p(X)p(Y)p(A|X,Y)(p(D|Y)p(Z|Y,D) \\
+	&= p(X)p(Y)\sum_D(p(D|Y)p(Z|Y,D)\sum_A p(A|X,Y) \\
+	&= \underbrace{p(X)}_{f(X, Z)}\underbrace{p(Y)\sum_D(p(D|Y)p(Z|Y,D)}_{g(y, Z)}.
+\end{align*}
+ \qeds
+\\
+
+\noindent
+(b) The maximal set of $\mathscr{B}$ for $\mathscr{G}_1$ is $\{3, 4\}$.
+\\
+
+\noindent
+(c) The maximal set of $\mathscr{B}$ for $\mathscr{G}_2$ is $\{5\}$.
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section*{Problem 7.4}
+(a) To show the constructed graph is a minimal I-map we need to show that it is an I-map
+and that the I-map is minimal. To show it is an I-map, we note that the distribution
+$p(x_1, x_2, \cdots, x_n)$ can be factorize according to the permutation order, that is
+%
+\begin{align}
+	p(x_1, x_2, \cdots, x_3) &= \prod_{i=1}^n p(x_{\sigma_i} | x_{\sigma_1}, x_{\sigma_2}, \cdots, x_{\sigma_{i-1}}) \\
+	&= \prod_{i=1}^n p(x_{\sigma_i} | x_{\pi_{\sigma_i}}), \label{eq:74a}
+\end{align}
+%
+where Equation~\eqref{eq:74a} is because by construction
+$x_{\sigma_i} \indep x_{\sigma_1, \cdots, \sigma_{i-1}}\backslash \pi_{\sigma_i} \big| \pi_{\sigma_i}$.
+%
+Now notice that Equation~\eqref{eq:74a} is also exactly the factorization given by the directed graphical
+model (each node depends only on the parents). Therefore, the CI induced by the graph is a subset of
+the CI condition induced by the distribution (since the distribution could be factorized in a
+different way). That is, the constructed graph is an I-map.
+
+To see the I-map is minimal, we prove by contradiction. Suppose we can remove an edge from the graph and
+still result in an I-map, it means we could have selected a smaller set of nodes as parent for the source
+node that got edge removed. This contradicts with our construction that the parent is the smallest set of
+nodes that leads to the conditional independence. Therefore, the constructed I-map is minimal. \qeds
+
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section*{Problem 7.5}
+(a)
+%
+Since every node is independent of every other node, there is no edge in the corresponding maximal D-map. An undirected graphical model is shown in Figure~\ref{f:75a}.
+%
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.3\columnwidth]{75a.pdf}
+    \vspace{-0.1cm}
+  \caption{Undirected graphical model for 7.5(a).}
+  \label{f:75a}
+\end{figure}
+\\
+
+\noindent
+(b)
+%
+In directed graphical model, a V-structure induces conditional dependencies. Notice in the undirected graph, every non-neighboring nodes can be conditionally independent given the intermediate separating nodes. Therefore, we can not afford a V-structure in the directed graphical model. Also, directed graphical model does not have cycles. As a result, a maximal D-map is shown in Figure~\ref{f:75b} (further adding an edge in the graph either leads to a V-structure or a cycle).
+%
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.225\columnwidth]{75b.pdf}
+    \vspace{-0.1cm}
+  \caption{Directed graphical model for 7.5(b).}
+  \label{f:75b}
+\end{figure}
+\\
+
+\noindent
+(c)
+%
+It is not possible to find such a family of distribution. We show this by the following argument. First notice
+that in terms of the CI condition, 
+\begin{align*}
+	\mathscr{I}(\mathscr{G}_{\text{I-map}}) \subseteq \mathscr{I}(p) \subseteq \mathscr{I}(\mathscr{G}_{\text{D-map}}).
+\end{align*}
+
+Thus the D-map encodes all the CI conditions encoded by the I-map.
+This implies all the edges existed in the undirected D-map has to exist 
+in the I-map. We prove this step by contradiction. Suppose an edge between
+$x_i$, $x_j$ exists in the undirected D-map but not in the undirected I-map. 
+From the I-map we have
+\begin{align*}
+	x_i \indep x_j \big | x_{1, 2, \cdots, n \backslash i, j}. 
+\end{align*}
+
+But this CI condition does not exist in the undirected D-map since there is
+an edge between $x_i$, $x_j$. This contradicts with
+$\mathscr{I}(\mathscr{G}_{\text{I-map}}) \subseteq \mathscr{I}(\mathscr{G}_{\text{D-map}})$.
+
+Therefore the minimal I-map has to contain at least as many edges as the 
+maximal D-map. That is, it is not possible to find a family of distributions
+whose undirected minimal I-map has fewer edges than its undirected maximal
+D-map. \qeds
+
+
 
 
 
