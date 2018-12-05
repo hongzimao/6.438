@@ -78,9 +78,9 @@
   }%
 }
 \newcommand*{\nindep}{%
-  \mathbin{%                   % The final symbol is a binary math operator
-    \mathpalette{\@indep}{\not}% \mathpalette helps for the adaptation
-                               % of the symbol to the different math styles.
+  \mathbin{%                     % The final symbol is a binary math operator
+    \mathpalette{\@indep}{\not}  % \mathpalette helps for the adaptation
+                                 % of the symbol to the different math styles.
   }%
 }
 \newcommand*{\@indep}[2]{%
@@ -264,11 +264,53 @@ $x_m$ and $x_n$. This results in $\Pr(X_{N_i} = t) > 0$. \qeds
 \noindent
 (e)
 %
-Trivial.
+By definition we have $g(X_{N_i}; 2\Theta_i) = \Pr(X_i=1|X_{N_i})$. From (c) we know that algorithm A provides
+$\Pr(X_i=1|X_{N_i}) = g(X_{N_i}; 2\hat{\Theta}_i)$. This trivially leads to 
+\begin{align*}
+	\mathbb{E}[g(X_{N_i}; 2\Theta_i) X_j] = 	\mathbb{E}[g(X_{N_i}; 2\hat{\Theta}_i) X_j],
+\end{align*}
+for $\forall j \in N_i$. \qeds
 \\
 
 \noindent
-(f)
+(f) Starting from the result from (e) we consider
+\begin{align}
+	g(X_{N_i}; 2\Theta_i) = \frac{\exp\big[(2\Theta_i)^T x_{N_i}\big]}
+{1 + \exp\big[(2\Theta_i)^T x_{N_i}\big]} = \frac{\exp\big[(2\hat{\Theta}_i)^T x_{N_i}\big]}
+{1 + \exp\big[(2\hat{\Theta}_i)^T x_{N_i}\big]} = g(X_{N_i}; 2\hat{\Theta}_i). \label{eq:8.2f}
+\end{align}
+%
+
+Notice that \eqref{eq:8.2f} indicates that
+\begin{align}
+	\exp\big[\Theta_i^T x_{N_i}\big] = \exp\big[\hat{\Theta}_i^T x_{N_i}\big]. \label{eq:8.2f2}
+\end{align}
+
+Now, since \eqref{eq:8.2f2} holds for any instantiation of $x_{N_i}$, consider $x_{N_i} = [-1, -1, \cdots, 1, \cdots, -1]$, where only the $k$th entry is $1$ and $-1$ elsewhere. Then we have
+\begin{align*}
+	&-\Theta_{i, 1} - \Theta_{i, 2} - \cdots - \Theta_{i, k-1} + \Theta_{i, k} - \Theta_{i, k+1} - \cdots \Theta_{i, |N_i|}\\
+	= &-\hat{\Theta}_{i, 1} - \hat{\Theta}_{i, 2} - \cdots - \hat{\Theta}_{i, k-1} + \hat{\Theta}_{i, k} - \hat{\Theta}_{i, k+1} - \cdots \hat{\Theta}_{i, |N_i|},
+\end{align*}
+%
+which is equivalent to
+\begin{align}
+	2 \Theta_{i, k} - \sum_{l=1}^{|N_i|}\Theta_{i, l} = 2 \hat{\Theta}_{i, k} - \sum_{l=1}^{|N_i|}\hat{\Theta}_{i, l}. \label{eq:82f3}
+\end{align}
+
+Now, consider taking $x_{N_i} = [1, 1, \cdots, 1]$, this leads to
+\begin{align}
+	\sum_{l=1}^{|N_i|}\Theta_{i, l} = \sum_{l=1}^{|N_i|}\hat{\Theta}_{i, l}. \label{eq:82f4}
+\end{align}
+
+Therefore, \eqref{eq:82f3} and \eqref{eq:82f4} result in
+\begin{align}
+	\Theta_{i, k} = \hat{\Theta}_{i, k}.
+\end{align}
+
+Since $k$ can be any of $\{1, 2, \cdots, |N_i|\}$. We have $\Theta_{i, k} = \hat{\Theta}_{i, k}$ holds for any coordinate, which means
+\begin{align}
+	\Theta_{i} = \hat{\Theta}_{i}.	
+\end{align} \qeds
 
 \pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -364,7 +406,7 @@ $X_A$ is a valid adjustment set for $X_i$ and $X_j$. \qeds
 \\
 
 \noindent
-(d) By the definition of backdoor criterion, $\{X_6\}$ and $\{X_4, X_6\}$ satisfy the condition.
+(d) By the definition of backdoor criterion, $\{X_6\}$ satisfies the condition.
 
 \pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -425,10 +467,12 @@ directed graphical model. Thus, condition on the observation of $W$ makes $S$ an
 (i) $P_{D|do(S=1)}(1) > P_D(1)$.
 \\
 
-(ii) $P_{W|do(S=1)}(l) > P_W(l)$.
+(ii) $P_{W|do(S=1)}(l) > P_W(l)$. (Parsing the sentence differently, one can think of the ``increase'' means increasing from to the group that is controlled not to smoke. In that case, the probability statement is
+$P_{W|do(S=1)}(l) > P_{W|do(S=0)}(l)$.)
 \\
 
-(iii) $P_{D|W}(1|l) > P_D(1)$.
+(iii) $P_{D|W}(1|l) > P_D(1)$. (Parsing the sentence differently, one can think of the ``higher'' means higher than the group with high birth weight. In that case, the probability statement is
+$P_{D|W}(1|l) > P_{D|W}(1|h)$.)
 \\
 
 (iv) $P_{D|W, S}(1|l, 1) < P_{D|W, S}(1|l, 0)$.
