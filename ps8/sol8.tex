@@ -168,10 +168,28 @@ This gives the MLE of $\Sigma$,
 
 \noindent
 (b)
-\\
-
+%
+Notice that the desired block of information matrix $J_{123,123}$
+can be obtained by computing
+\begin{align*}
+	\hat{J}_{123,123} = (\hat{\Sigma}_{123, 123} - \hat{\Sigma}_{123,4567}\hat{\Sigma}_{4567, 4567}^{-1}\hat{\Sigma}_{4567, 123})^{-1}.
+\end{align*}
+%
+Now, notice that we can use the BP script to obtain this way of computing $\hat{J}_{123,123}$ as a message. Specifically, we combine nodes $1,2,3$ and nodes $4,5,6,7$, and ``force'' them as
+the $J$ input to compute the message passing, then we get
+\begin{align*}
+	\hat{\Sigma}_{4567\to 123} = -\hat{\Sigma}_{123,4567}\hat{\Sigma}_{4567, 4567}^{-1}\hat{\Sigma}_{4567, 123}.
+\end{align*}
+%
+Thus, we obtain the desired block of information matrix as
+\begin{align*}
+	\hat{J}_{123,123} = (\hat{\Sigma}_{123, 123} + \hat{\Sigma}_{4567\to 123})^{-1}.
+\end{align*}
 \noindent
 (c)
+%
+Since this way of constructing the message gives exact expression
+of the $123$ block of information matrix, the estimate is accurate. Since the inverse operation only involves part of the entire $\Sigma$ matrix, this way of using BP is computationally more efficient than inverting the entire $\Sigma$ matrix directly.
 
 \pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
